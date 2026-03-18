@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<html lang='pt-BR'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>KPIs de Medidas Disciplinares</title>
+    <style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 24px;
+    background: #f6f8fb;
+    color: #1f2937;
+}
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+.header p {
+    margin: 8px 0 0;
+    color: #6b7280;
+}
+.section-title {
+    margin: 32px 0 12px;
+    font-size: 18px;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+}
+.type-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+.type-card {
+    border: 1px solid #e5e7eb;
+}
+.type-card .label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.type-card .value {
+    margin-top: 14px;
+}
+.type-card .meta {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+.type-card .meta-item {
+    background: rgba(255, 255, 255, 0.62);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+.meta-item .meta-label {
+    font-size: 12px;
+    color: #6b7280;
+}
+.meta-item .meta-value {
+    margin-top: 4px;
+    font-size: 18px;
+    font-weight: 700;
+}
+.badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.bar-caption {
+    margin-bottom: 14px;
+    color: #6b7280;
+    font-size: 13px;
+}
+.card .label {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+.card .value {
+    font-size: 28px;
+    font-weight: bold;
+}
+.card .subvalue {
+    margin-top: 6px;
+    color: #374151;
+    font-size: 13px;
+}
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 16px;
+}
+.panel {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.table th,
+.table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+}
+.table th {
+    background: #f9fafb;
+}
+.bar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.bar-row {
+    display: grid;
+    grid-template-columns: 210px 1fr 56px;
+    gap: 12px;
+    align-items: center;
+    font-size: 14px;
+}
+.bar-track {
+    background: #e5e7eb;
+    height: 12px;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.bar-fill {
+    background: linear-gradient(90deg, #2563eb, #0ea5e9);
+    height: 100%;
+    border-radius: 999px;
+}
+.insights {
+    margin: 0;
+    padding-left: 18px;
+    line-height: 1.6;
+}
+.footer {
+    margin-top: 24px;
+    color: #6b7280;
+    font-size: 12px;
+}
+@media (max-width: 900px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+    .bar-row {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <div>
+                <h1>KPIs de Medidas Disciplinares</h1>
+                <p>BRAZAURO RECURSOS MINERAIS LTDA. · Atualizado em 18/03/2026 14:55</p>
+            </div>
+            <div>
+                <p>Base: medidas_disciplinares_limpo.xlsx</p>
+            </div>
+        </div>
+
+        <div class='cards'><div class='card'><div class='label'>Total de medidas</div><div class='value'>16</div><div class='subvalue'>16 colaborador(es) impactado(s)</div></div><div class='card'><div class='label'>Período analisado</div><div class='value'>03/01/2026 a 14/03/2026</div><div class='subvalue'>3 mês(es) com registro</div></div><div class='card'><div class='label'>Sequência > 1</div><div class='value'>2</div><div class='subvalue'>Taxa sobre medidas: 12.5%</div></div><div class='card'><div class='label'>Severidade média</div><div class='value'>2.00</div><div class='subvalue'>Índice ponderado de 2.00</div></div><div class='card'><div class='label'>Tipo dominante</div><div class='value'>Advertência disciplinar</div><div class='subvalue'>81.2% das medidas</div></div><div class='card'><div class='label'>Categoria dominante</div><div class='value'>Segurança operacional</div><div class='subvalue'>9 ocorrência(s)</div></div></div>
+
+        <h2 class='section-title'>Painel por tipo de medida</h2>
+        <div class='panel'>
+            <div class='bar-caption'>Blocos executivos para destacar o peso de cada tipo disciplinar na base atual.</div>
+            <div class='type-cards'>
+            <div class='card type-card' style='background:#fff7ed; border-color:#fdba74'>
+                <div class='label'>
+                    <span>Advertência disciplinar</span>
+                    <span class='badge' style='background:#f59e0b; color:white'>81.2%</span>
+                </div>
+                <div class='value' style='color:#f59e0b'>13</div>
+                <div class='subvalue'>medida(s) registradas no período</div>
+                <div class='meta'>
+                    <div class='meta-item'>
+                        <div class='meta-label'>Participação</div>
+                        <div class='meta-value'>81.2%</div>
+                    </div>
+                    <div class='meta-item'>
+                        <div class='meta-label'>Leitura RH</div>
+                        <div class='meta-value'>Alta concentração</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class='card type-card' style='background:#eff6ff; border-color:#93c5fd'>
+                <div class='label'>
+                    <span>Advertência verbal</span>
+                    <span class='badge' style='background:#2563eb; color:white'>12.5%</span>
+                </div>
+                <div class='value' style='color:#2563eb'>2</div>
+                <div class='subvalue'>medida(s) registradas no período</div>
+                <div class='meta'>
+                    <div class='meta-item'>
+                        <div class='meta-label'>Participação</div>
+                        <div class='meta-value'>12.5%</div>
+                    </div>
+                    <div class='meta-item'>
+                        <div class='meta-label'>Leitura RH</div>
+                        <div class='meta-value'>Monitorar</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class='card type-card' style='background:#fef2f2; border-color:#fca5a5'>
+                <div class='label'>
+                    <span>Suspensão</span>
+                    <span class='badge' style='background:#dc2626; color:white'>6.2%</span>
+                </div>
+                <div class='value' style='color:#dc2626'>1</div>
+                <div class='subvalue'>medida(s) registradas no período</div>
+                <div class='meta'>
+                    <div class='meta-item'>
+                        <div class='meta-label'>Participação</div>
+                        <div class='meta-value'>6.2%</div>
+                    </div>
+                    <div class='meta-item'>
+                        <div class='meta-label'>Leitura RH</div>
+                        <div class='meta-value'>Monitorar</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <h2 class='section-title'>Insights executivos</h2>
+        <div class='panel'>
+            <ul class='insights'><li>Advertência disciplinar representa 81.2% das medidas, sinalizando o perfil predominante de atuação disciplinar.</li><li>O mês com maior volume foi 01/2026 com 7 registro(s).</li><li>Há 2 medida(s) com sequência maior que 1, equivalente a 12.5% do total.</li><li>A categoria mais frequente é Segurança operacional, com 9 ocorrência(s), indicando foco prioritário de prevenção.</li><li>Recomenda-se acompanhar mensalmente o mix por severidade, sequência das medidas e categorias de motivo para agir antes da escalada disciplinar.</li></ul>
+        </div>
+
+        <div class='grid-2'>
+            <div>
+                <h2 class='section-title'>Distribuição por tipo</h2>
+                <div class='panel'>
+                    <div class='bar-list'><div class='bar-row'><div>Advertência disciplinar</div><div class='bar-track'><div class='bar-fill' style='width:100.0%; background:#f59e0b;'></div></div><div>13</div></div><div class='bar-row'><div>Advertência verbal</div><div class='bar-track'><div class='bar-fill' style='width:15.4%; background:#2563eb;'></div></div><div>2</div></div><div class='bar-row'><div>Suspensão</div><div class='bar-track'><div class='bar-fill' style='width:7.7%; background:#dc2626;'></div></div><div>1</div></div></div>
+                </div>
+            </div>
+            <div>
+                <h2 class='section-title'>Distribuição por categoria</h2>
+                <div class='panel'>
+                    <div class='bar-list'><div class='bar-row'><div>Segurança operacional</div><div class='bar-track'><div class='bar-fill' style='width:100.0%; background:#2563eb;'></div></div><div>9</div></div><div class='bar-row'><div>Conduta e convivência</div><div class='bar-track'><div class='bar-fill' style='width:33.3%; background:#2563eb;'></div></div><div>3</div></div><div class='bar-row'><div>Assiduidade e jornada</div><div class='bar-track'><div class='bar-fill' style='width:22.2%; background:#2563eb;'></div></div><div>2</div></div><div class='bar-row'><div>Outros</div><div class='bar-track'><div class='bar-fill' style='width:22.2%; background:#2563eb;'></div></div><div>2</div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class='grid-2'>
+            <div>
+                <h2 class='section-title'>Evolução mensal</h2>
+                <div class='panel'><table class='table'><thead><tr><th>AnoMesReferencia</th><th>Quantidade</th></tr></thead><tbody><tr><td>01/2026</td><td>7</td></tr><tr><td>02/2026</td><td>6</td></tr><tr><td>03/2026</td><td>3</td></tr></tbody></table></div>
+            </div>
+            <div>
+                <h2 class='section-title'>Colaboradores com maior severidade</h2>
+                <div class='panel'><table class='table'><thead><tr><th>Funcionario</th><th>Matricula</th><th>Quantidade</th><th>SeveridadeMaxima</th><th>UltimaOcorrencia</th><th>Reincidente</th></tr></thead><tbody><tr><td>JANDERSON GONCALVES CARTAGENES</td><td>829</td><td>1</td><td>4</td><td>15/01/2026</td><td>Não</td></tr><tr><td>DOUGLAS SOUSA PIMENTEL</td><td>2310</td><td>1</td><td>2</td><td>14/03/2026</td><td>Sim</td></tr><tr><td>JORGE ANDRE RIBEIRO DOS SANTOS</td><td>2490</td><td>1</td><td>2</td><td>14/03/2026</td><td>Sim</td></tr><tr><td>IVAN RODRIGUES VERA DA SILVA</td><td>1045</td><td>1</td><td>2</td><td>05/03/2026</td><td>Não</td></tr><tr><td>OTAVIO SILVA DA SILVA</td><td>1887</td><td>1</td><td>2</td><td>20/02/2026</td><td>Não</td></tr><tr><td>ANDRE DA SILVA</td><td>1866</td><td>1</td><td>2</td><td>18/02/2026</td><td>Não</td></tr><tr><td>JUVENILSON SILVA DO NASCIMENTO</td><td>1623</td><td>1</td><td>2</td><td>18/02/2026</td><td>Não</td></tr><tr><td>MARCIO RAINER FREIRE DO NASCIMENTO</td><td>1988</td><td>1</td><td>2</td><td>08/02/2026</td><td>Não</td></tr><tr><td>WESLEY DE JESUS RODRIGUES</td><td>960</td><td>1</td><td>2</td><td>07/02/2026</td><td>Não</td></tr><tr><td>EDIRAYSON FEITOSA MELLO</td><td>2191</td><td>1</td><td>2</td><td>05/02/2026</td><td>Não</td></tr></tbody></table></div>
+            </div>
+        </div>
+
+        <div class='grid-2'>
+            <div>
+                <h2 class='section-title'>Palavras recorrentes nas anotações</h2>
+                <div class='panel'><table class='table'><thead><tr><th>palavra</th><th>frequencia</th></tr></thead><tbody><tr><td>seguranca</td><td>8</td></tr><tr><td>supervisor</td><td>8</td></tr><tr><td>trabalho</td><td>8</td></tr><tr><td>comunicacao</td><td>7</td></tr><tr><td>equipamento</td><td>7</td></tr><tr><td>atividades</td><td>6</td></tr><tr><td>caminhao</td><td>6</td></tr><tr><td>comportamento</td><td>5</td></tr><tr><td>conduta</td><td>5</td></tr><tr><td>falta</td><td>5</td></tr><tr><td>risco</td><td>5</td></tr><tr><td>alem</td><td>4</td></tr><tr><td>durante</td><td>4</td></tr><tr><td>operador</td><td>4</td></tr><tr><td>operadores</td><td>4</td></tr></tbody></table></div>
+            </div>
+            <div>
+                <h2 class='section-title'>Detalhe por tipo</h2>
+                <div class='panel'><table class='table'><thead><tr><th>TipoDescricao</th><th>Quantidade</th><th>Percentual</th></tr></thead><tbody><tr><td>Advertência disciplinar</td><td>13</td><td>81.2%</td></tr><tr><td>Advertência verbal</td><td>2</td><td>12.5%</td></tr><tr><td>Suspensão</td><td>1</td><td>6.2%</td></tr></tbody></table></div>
+            </div>
+        </div>
+
+        <div class='footer'>
+            Assunção padrão do RH: 002 = Advertência disciplinar, 003 = Advertência verbal e 004 = Suspensão. A coluna Sequencia representa a ordem da medida aplicada ao colaborador; valores maiores que 1 indicam repetição.
+        </div>
+    </div>
+</body>
+</html>
