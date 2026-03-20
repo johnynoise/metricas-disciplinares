@@ -87,10 +87,10 @@ Pode ser utilizado por:
 ---
 
 ## 📁 Estrutura do projeto
-/project
-│── index.html
-│── assets/
-│── README.md
+metricas-disciplinares/
+├── index.html
+├── logo.png
+└── README.md
 
 
 ---
