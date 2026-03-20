@@ -83,3 +83,39 @@ Ideal para:
 ---
 
 ## 📁 Estrutura do projeto
+/project
+│── index.html
+│── assets/
+│── README.md
+
+
+---
+
+## ⚠️ Observações
+
+- O sistema roda totalmente no navegador  
+- Não há persistência de dados (uso baseado em upload de planilhas)  
+- Ideal para análises rápidas ou apresentações executivas  
+
+---
+
+## 📈 Roadmap (Melhorias futuras)
+
+- Backend com banco de dados
+- Autenticação de usuários (login)
+- Integração com sistemas ERP (SAP, TOTVS)
+- Dashboard online (deploy web)
+- Histórico automático de dados
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Johny Luzia**  
+Especialista em automação, análise de dados e soluções corporativas
+
+---
+
+## 💡 Insight
+
+> "Transformar dados operacionais em inteligência estratégica para o RH."
