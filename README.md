@@ -6,6 +6,10 @@
 
 Sistema genérico de análise de medidas disciplinares para geração automática de indicadores estratégicos de RH.
 
+## 🎥 Apresentação
+
+[Assistir ao vídeo de apresentação](./Video%20apresenta%C3%A7%C3%A3o.mp4)
+
 ---
 
 ## 🎯 Objetivo
@@ -90,7 +94,8 @@ Pode ser utilizado por:
 metricas-disciplinares/
 ├── index.html
 ├── logo.png
-└── README.md
+├── README.md
+└── Video apresentação.mp4
 
 
 ---
