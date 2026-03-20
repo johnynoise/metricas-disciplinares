@@ -1,6 +1,6 @@
 # 🧠 RH Disciplinar Analytics
 
-Sistema de análise de medidas disciplinares para geração automática de indicadores estratégicos de RH.
+Sistema genérico de análise de medidas disciplinares para geração automática de indicadores estratégicos de RH.
 
 ---
 
@@ -57,7 +57,7 @@ Transformar dados operacionais de medidas disciplinares em **informações estra
 
 ## 💼 Aplicação prática
 
-Ideal para:
+Pode ser utilizado por:
 
 - Recursos Humanos
 - Compliance
@@ -103,16 +103,9 @@ Ideal para:
 
 - Backend com banco de dados
 - Autenticação de usuários (login)
-- Integração com sistemas ERP (SAP, TOTVS)
+- Integração com sistemas ERP
 - Dashboard online (deploy web)
 - Histórico automático de dados
-
----
-
-## 👨‍💻 Autor
-
-Desenvolvido por **Johny Luzia**  
-Especialista em automação, análise de dados e soluções corporativas
 
 ---
 
