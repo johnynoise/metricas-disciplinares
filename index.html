@@ -563,6 +563,25 @@ function formatDate(d) {
 
 function pct(n, t) { return t ? (n/t*100).toFixed(1)+'%' : '0%'; }
 
+function normalizeKey(key) {
+  return String(key || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '');
+}
+
+function pickField(row, ...candidates) {
+  const normalizedCandidates = candidates.map(normalizeKey);
+  for (const [key, value] of Object.entries(row || {})) {
+    if (!normalizedCandidates.includes(normalizeKey(key))) continue;
+    if (value == null) continue;
+    if (typeof value === 'string' && !value.trim()) continue;
+    return value;
+  }
+  return null;
+}
+
 // ── PARSE EXCEL ─────────────────────────────────────────────────────────────
 function parseExcel(buffer) {
   const wb = XLSX.read(buffer, { type: 'array', cellDates: true });
@@ -579,18 +598,16 @@ function parseExcel(buffer) {
 
 // ── BUILD DATA ───────────────────────────────────────────────────────────────
 function buildKPIs(raw) {
-  const get = (r, k) => r[k] ?? r[k.toLowerCase()] ?? null;
-
   const rows = raw.map(r => ({
-    Empresa:    r.Empresa    || get(r,'Empresa')    || '',
-    Data:       r.Data       || get(r,'Data'),
-    Grupo:      String(r.Grupo  || get(r,'Grupo')  || 'Não informado').trim(),
-    Classe:     String(r.Classe || get(r,'Classe') || 'Não informado').trim(),
-    Funcionario:String(r.Funcionario || get(r,'Funcionario') || '').trim().toUpperCase(),
-    Sequencia:  Number(r.Sequencia   || get(r,'Sequencia')   || 1),
-    Tipo:       Number(r.Tipo         || get(r,'Tipo')         || 0),
-    Matricula:  r.Matricula  || get(r,'Matricula'),
-    Anotacoes:  String(r.Anotacoes   || get(r,'Anotacoes')   || ''),
+    Empresa:    pickField(r, 'Empresa') || '',
+    Data:       pickField(r, 'Data'),
+    Grupo:      String(pickField(r, 'Grupo', 'Departamento') || 'Não informado').trim(),
+    Classe:     String(pickField(r, 'Classe', 'Centro de Custo', 'CentroCusto') || 'Não informado').trim(),
+    Funcionario:String(pickField(r, 'Funcionario', 'Funcionário') || '').trim().toUpperCase(),
+    Sequencia:  Number(pickField(r, 'Sequencia', 'Sequência') || 1),
+    Tipo:       Number(pickField(r, 'Tipo') || 0),
+    Matricula:  pickField(r, 'Matricula', 'Matrícula'),
+    Anotacoes:  String(pickField(r, 'Anotacoes', 'Anotações', 'Observacoes', 'Observações') || ''),
     // Preserve pre-computed fields if already present (snapshot path)
     DataObj:    r.DataObj || null,
     TipoDesc:   r.TipoDesc || null,
@@ -1351,22 +1368,22 @@ document.getElementById('btn-reset').addEventListener('click', ()=>{
 // ── DEMO DATA ─────────────────────────────────────────────────────────────
 document.getElementById('demo-btn').addEventListener('click', ()=>{
   const demoRows = [
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-04'),Funcionario:'ALICE MONTEIRO CAMPOS',Sequencia:1,Tipo:3,Matricula:4101,Anotacoes:'discussão no rádio com colega durante troca de turno conduta inadequada convivência equipe'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-09'),Funcionario:'BRUNO TEIXEIRA LEMOS',Sequencia:1,Tipo:2,Matricula:4102,Anotacoes:'omitiu comunicação de quase incidente com equipamento móvel em área operacional'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-12'),Funcionario:'CARLA DUARTE NOGUEIRA',Sequencia:1,Tipo:2,Matricula:4103,Anotacoes:'descumprimento de procedimento de tráfego interno e falha no reporte à liderança'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-18'),Funcionario:'DANIEL PORTO ALMEIDA',Sequencia:1,Tipo:4,Matricula:4104,Anotacoes:'conduta agressiva com supervisor após orientação formal risco à integridade da equipe'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-21'),Funcionario:'ELISA FERREIRA COSTA',Sequencia:1,Tipo:2,Matricula:4105,Anotacoes:'falha em checklist de segurança antes de iniciar operação de equipamento pesado'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-27'),Funcionario:'FABIO REZENDE PRADO',Sequencia:1,Tipo:3,Matricula:4106,Anotacoes:'desrespeito verbal a colega no alojamento prejudicando convivência e clima da equipe'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-03'),Funcionario:'GABRIELA MELO VASCONCELOS',Sequencia:1,Tipo:2,Matricula:4107,Anotacoes:'quebra de procedimento em manobra interna com dano leve em estrutura patrimonial'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-06'),Funcionario:'HEITOR BARROS QUEIROZ',Sequencia:1,Tipo:2,Matricula:4108,Anotacoes:'ausência sem comunicação no início da jornada impactando escala operacional'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-11'),Funcionario:'ISADORA PINTO FARIAS',Sequencia:1,Tipo:2,Matricula:4109,Anotacoes:'retirada inadequada de EPI em área ativa contrariando norma de segurança'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-17'),Funcionario:'JOAO VICTOR ARANTES',Sequencia:1,Tipo:2,Matricula:4110,Anotacoes:'uso indevido das instalações coletivas com conduta incompatível ao regulamento interno'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-19'),Funcionario:'KAREN BORGES TAVARES',Sequencia:1,Tipo:2,Matricula:4111,Anotacoes:'recusa injustificada de atividade planejada sem alinhamento prévio com supervisão'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-24'),Funcionario:'LEONARDO MOURA PINHEIRO',Sequencia:1,Tipo:2,Matricula:4112,Anotacoes:'comunicação tardia de colisão em veículo interno descumprindo procedimento padrão'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-03-02'),Funcionario:'MARIANA SALES ROCHA',Sequencia:1,Tipo:2,Matricula:4113,Anotacoes:'interrupção não autorizada de atividade operacional sem informar a liderança imediata'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-03-08'),Funcionario:'NICOLAS RIBEIRO MATTA',Sequencia:2,Tipo:2,Matricula:4114,Anotacoes:'não compareceu após transporte corporativo e falhou em comunicar ausência à gestão'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-03-14'),Funcionario:'OLIVIA CASTRO MENDES',Sequencia:2,Tipo:3,Matricula:4115,Anotacoes:'tratou colega com ironia e palavras ofensivas durante atendimento interno'},
-    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-03-18'),Funcionario:'PAULO HENRIQUE DANTAS',Sequencia:1,Tipo:4,Matricula:4116,Anotacoes:'descumpriu bloqueio operacional em atividade crítica elevando risco de incidente grave'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-04'),Departamento:'Operações Mina','Centro de Custo':'CC-1101',Funcionario:'ALICE MONTEIRO CAMPOS',Sequencia:1,Tipo:3,Matricula:4101,Anotacoes:'discussão no rádio com colega durante troca de turno conduta inadequada convivência equipe'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-09'),Departamento:'Operações Mina','Centro de Custo':'CC-1101',Funcionario:'BRUNO TEIXEIRA LEMOS',Sequencia:1,Tipo:2,Matricula:4102,Anotacoes:'omitiu comunicação de quase incidente com equipamento móvel em área operacional'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-12'),Departamento:'Logística Interna','Centro de Custo':'CC-1203',Funcionario:'CARLA DUARTE NOGUEIRA',Sequencia:1,Tipo:2,Matricula:4103,Anotacoes:'descumprimento de procedimento de tráfego interno e falha no reporte à liderança'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-18'),Departamento:'Manutenção Móvel','Centro de Custo':'CC-1302',Funcionario:'DANIEL PORTO ALMEIDA',Sequencia:1,Tipo:4,Matricula:4104,Anotacoes:'conduta agressiva com supervisor após orientação formal risco à integridade da equipe'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-21'),Departamento:'SSMA','Centro de Custo':'CC-1404',Funcionario:'ELISA FERREIRA COSTA',Sequencia:1,Tipo:2,Matricula:4105,Anotacoes:'falha em checklist de segurança antes de iniciar operação de equipamento pesado'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-01-27'),Departamento:'Facilities','Centro de Custo':'CC-1505',Funcionario:'FABIO REZENDE PRADO',Sequencia:1,Tipo:3,Matricula:4106,Anotacoes:'desrespeito verbal a colega no alojamento prejudicando convivência e clima da equipe'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-03'),Departamento:'Logística Interna','Centro de Custo':'CC-1203',Funcionario:'GABRIELA MELO VASCONCELOS',Sequencia:1,Tipo:2,Matricula:4107,Anotacoes:'quebra de procedimento em manobra interna com dano leve em estrutura patrimonial'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-06'),Departamento:'Operações Mina','Centro de Custo':'CC-1101',Funcionario:'HEITOR BARROS QUEIROZ',Sequencia:1,Tipo:2,Matricula:4108,Anotacoes:'ausência sem comunicação no início da jornada impactando escala operacional'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-11'),Departamento:'SSMA','Centro de Custo':'CC-1404',Funcionario:'ISADORA PINTO FARIAS',Sequencia:1,Tipo:2,Matricula:4109,Anotacoes:'retirada inadequada de EPI em área ativa contrariando norma de segurança'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-17'),Departamento:'Facilities','Centro de Custo':'CC-1505',Funcionario:'JOAO VICTOR ARANTES',Sequencia:1,Tipo:2,Matricula:4110,Anotacoes:'uso indevido das instalações coletivas com conduta incompatível ao regulamento interno'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-19'),Departamento:'Manutenção Móvel','Centro de Custo':'CC-1302',Funcionario:'KAREN BORGES TAVARES',Sequencia:1,Tipo:2,Matricula:4111,Anotacoes:'recusa injustificada de atividade planejada sem alinhamento prévio com supervisão'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-02-24'),Departamento:'Logística Interna','Centro de Custo':'CC-1203',Funcionario:'LEONARDO MOURA PINHEIRO',Sequencia:1,Tipo:2,Matricula:4112,Anotacoes:'comunicação tardia de colisão em veículo interno descumprindo procedimento padrão'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-03-02'),Departamento:'Operações Mina','Centro de Custo':'CC-1101',Funcionario:'MARIANA SALES ROCHA',Sequencia:1,Tipo:2,Matricula:4113,Anotacoes:'interrupção não autorizada de atividade operacional sem informar a liderança imediata'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-03-08'),Departamento:'Operações Mina','Centro de Custo':'CC-1101',Funcionario:'NICOLAS RIBEIRO MATTA',Sequencia:2,Tipo:2,Matricula:4114,Anotacoes:'não compareceu após transporte corporativo e falhou em comunicar ausência à gestão'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-03-14'),Departamento:'Facilities','Centro de Custo':'CC-1505',Funcionario:'OLIVIA CASTRO MENDES',Sequencia:2,Tipo:3,Matricula:4115,Anotacoes:'tratou colega com ironia e palavras ofensivas durante atendimento interno'},
+    {Empresa:'EMPRESA DEMO RH OPERACOES LTDA.',Data:new Date('2026-03-18'),Departamento:'Manutenção Móvel','Centro de Custo':'CC-1302',Funcionario:'PAULO HENRIQUE DANTAS',Sequencia:1,Tipo:4,Matricula:4116,Anotacoes:'descumpriu bloqueio operacional em atividade crítica elevando risco de incidente grave'},
   ];
   const kpis = buildKPIs(demoRows);
   render(kpis);
