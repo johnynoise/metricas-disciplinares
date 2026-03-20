@@ -53,10 +53,11 @@
   }
   .topbar-brand {
     font-family: 'Playfair Display', serif;
-    font-size: 18px;
+    font-size: 20px;
     letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
   }
-  .topbar-brand span { color: var(--gold); }
   .topbar-meta { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.05em; text-transform: uppercase; }
 
   /* ── UPLOAD SCREEN ── */
@@ -75,6 +76,13 @@
     color: var(--gold);
     font-weight: 600;
     margin-bottom: 20px;
+  }
+  .upload-logo {
+    width: min(280px, 52vw);
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 32px;
+    filter: drop-shadow(0 8px 24px rgba(13,15,20,0.12));
   }
   .upload-title {
     font-family: 'Playfair Display', serif;
@@ -146,7 +154,6 @@
     display: flex; align-items: flex-start; justify-content: space-between;
     margin-bottom: 36px; gap: 24px; flex-wrap: wrap;
   }
-  .dash-title-group {}
   .dash-eyebrow {
     font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
     color: var(--gold); font-weight: 600; margin-bottom: 6px;
@@ -340,12 +347,13 @@
 <body>
 
 <div class="topbar">
-  <div class="topbar-brand">RH <span>·</span> Disciplinar</div>
+  <div class="topbar-brand">Dashboard Disciplinar</div>
   <div class="topbar-meta" id="topbar-meta">Dashboard de Medidas Disciplinares</div>
 </div>
 
 <!-- UPLOAD -->
 <div id="upload-screen">
+  <img src="logo.png" alt="Logo do projeto" class="upload-logo">
   <div class="upload-eyebrow">Gestão de Recursos Humanos</div>
   <h1 class="upload-title">Análise de Medidas Disciplinares</h1>
   <p class="upload-sub">Importe a planilha Excel para gerar os KPIs executivos automaticamente. Nenhum dado é enviado a servidores externos.</p>

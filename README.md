@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.png" alt="Logo do projeto" width="180">
+</p>
+
 # 🧠 RH Disciplinar Analytics
 
 Sistema genérico de análise de medidas disciplinares para geração automática de indicadores estratégicos de RH.
