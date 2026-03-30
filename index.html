@@ -147,6 +147,64 @@
   }
   .demo-btn:hover { border-color: var(--gold); color: var(--gold); }
 
+  /* ── YEAR FILTER ── */
+  .year-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 22px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--gold);
+  }
+  .year-filter-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: var(--ink-muted);
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+  .year-btn {
+    background: var(--paper-dark);
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    padding: 7px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
+  }
+  .year-select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1.5px solid var(--line);
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 600;
+    min-width: 160px;
+  }
+  .year-btn:hover { background: var(--gold-light); color: var(--amber); border-color: var(--gold-light); transform: translateY(-1px); }
+  .year-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .year-btn.all { border-style: dashed; border-color: var(--line); }
+  .year-btn.all.active { border-style: solid; }
+  .year-filter-bar.hidden { display: none; }
+  .year-filter-info {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
   /* ── DASHBOARD ── */
   #dashboard-screen { display: none; padding: 40px; max-width: 1400px; margin: 0 auto; }
 
@@ -386,6 +444,13 @@
       <button class="btn-reset" id="btn-reset">↩ Nova importação</button>
       <button class="btn-export" id="btn-export" onclick="exportSnapshot()">⬇ Exportar dashboard</button>
     </div>
+  </div>
+
+  <!-- YEAR FILTER -->
+  <div class="year-filter-bar hidden animate-in" id="year-filter-bar">
+    <span class="year-filter-label">📅 Filtrar por ano</span>
+    <select id="year-select" class="year-select" onchange="renderYear(this.value)"></select>
+    <span class="year-filter-info" id="year-filter-info"></span>
   </div>
 
   <!-- KPIs principais -->
@@ -717,230 +782,70 @@ function buildKPIs(raw) {
   return { total, colaboradores, reincidencias, severidadeMedia, empresa, inicio, fim, meses:porMesArr.length, porTipoArr, porMesArr, porCatArr, porDepArr, porClasseArr, topColab, palavras, insights, mesTypeSplit, rows };
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
+// ── YEAR FILTER STATE ────────────────────────────────────────────────────────
 let _kpis = null;
+let _allRows = null;
+let _activeYear = 'all';
 
-function openDep(dep) {
-  const kpis = _kpis;
-  if (!kpis) return;
+// ── YEAR FILTER FUNCTIONS ────────────────────────────────────────────────────
+function buildYearFilter(rows) {
+  const years = [...new Set(
+    rows.filter(r => r.DataObj).map(r => r.DataObj.getFullYear())
+  )].sort();
+  const bar = document.getElementById('year-filter-bar');
+  const select = document.getElementById('year-select');
+  const info = document.getElementById('year-filter-info');
 
-  const TIPO_BADGE_STYLE = {
-    'Advertência escrita':  'background:#fff3dc;color:#b7750d',
-    'Advertência verbal':   'background:#d6eaf8;color:#1a5276',
-    'Suspensão':            'background:#fbeae8;color:#c0392b',
-  };
+  if (years.length <= 1) {
+    bar.classList.add('hidden');
+    return;
+  }
 
-  // All records for this department
-  const registros = kpis.rows.filter(r => r.Grupo === dep).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
-  // Unique colaboradores
-  const colabMap = {};
-  registros.forEach(r => {
-    if (!colabMap[r.Funcionario]) colabMap[r.Funcionario] = { nome:r.Funcionario, mat:r.Matricula, qtd:0, tiposCont:{}, piorTipo:'—', maxPeso:0, ultima:null, reincidente:false };
-    colabMap[r.Funcionario].qtd++;
-    colabMap[r.Funcionario].tiposCont[r.TipoDesc] = (colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
-    if ((PESO_MAP[r.Tipo]||0) > colabMap[r.Funcionario].maxPeso) { colabMap[r.Funcionario].maxPeso = PESO_MAP[r.Tipo]||0; colabMap[r.Funcionario].piorTipo = r.TipoDesc; }
-    if (!colabMap[r.Funcionario].ultima || (r.DataObj && r.DataObj > colabMap[r.Funcionario].ultima)) colabMap[r.Funcionario].ultima = r.DataObj;
-    if (r.Sequencia > 1) colabMap[r.Funcionario].reincidente = true;
+  bar.classList.remove('hidden');
+
+  const totalAll = rows.length;
+  let html = `<option value="all"${_activeYear === 'all' ? ' selected' : ''}>Todos (${totalAll})</option>`;
+
+  years.forEach(y => {
+    const count = rows.filter(r => r.DataObj && r.DataObj.getFullYear() === y).length;
+    const isActive = _activeYear === y;
+    html += `<option value="${y}"${isActive ? ' selected' : ''}>${y} (${count})</option>`;
   });
-  const colabs = Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
 
-  document.getElementById('dep-titulo').textContent = dep;
-  document.getElementById('dep-subtitulo').textContent = `${registros.length} ocorrência(s) · ${colabs.length} colaborador(es) único(s)`;
+  select.innerHTML = html;
 
-  // Summary chips por tipo
-  const tiposCont = {};
-  registros.forEach(r => { tiposCont[r.TipoDesc] = (tiposCont[r.TipoDesc]||0)+1; });
-  document.getElementById('dep-summary').innerHTML = Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-    const st = TIPO_BADGE_STYLE[t] || 'background:var(--paper-dark);color:var(--ink-soft)';
-    return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">${n}× ${t}</span>`;
-  }).join('');
-
-  // Table: one row per colaborador
-  const TIPO_DOT = { 'Advertência escrita':'#b7750d','Advertência verbal':'#1a5276','Suspensão':'#c0392b' };
-  const thead = `<tr><th>Colaborador</th><th>Mat.</th><th>Total</th><th>Qtd. por Tipo</th><th>Tipo Mais Grave</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
-  const tbody = colabs.map(c => {
-    const st = TIPO_BADGE_STYLE[c.piorTipo] || 'background:var(--paper-dark);color:var(--ink-soft)';
-    const tipoBadge = `<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;">${c.piorTipo}</span>`;
-    const tiposDetalhes = Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-      const dot = TIPO_DOT[t]||'#8a8f9e';
-      return `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:12px;white-space:nowrap;">
-        <span style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0;display:inline-block;"></span>
-        <strong>${n}x</strong> ${t.replace('Advertência ','Adv. ')}
-      </span>`;
-    }).join('');
-    const nomeEsc = c.nome.replace(/'/g,"\\'");
-    const btnHist = `<button onclick="document.getElementById('dep-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--paper-dark);border:none;border-radius:8px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--gold-light)';this.style.color='var(--amber)'" onmouseout="this.style.background='var(--paper-dark)';this.style.color='var(--ink-soft)'">📋 Histórico</button>`;
-    return `<tr>
-      <td style="font-weight:600;white-space:nowrap;">${c.nome.length>30?c.nome.slice(0,30)+'…':c.nome}</td>
-      <td style="white-space:nowrap;">${c.mat||'—'}</td>
-      <td><strong>${c.qtd}</strong></td>
-      <td><div style="display:flex;flex-wrap:wrap;gap:2px;">${tiposDetalhes}</div></td>
-      <td>${tipoBadge}</td>
-      <td style="white-space:nowrap;">${formatDate(c.ultima)}</td>
-      <td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td>
-      <td>${btnHist}</td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('dep-table').innerHTML = `<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
-  document.getElementById('dep-overlay').style.display = 'block';
+  if (_activeYear !== 'all') {
+    const filtCount = rows.filter(r => r.DataObj && r.DataObj.getFullYear() === _activeYear).length;
+    info.textContent = `Exibindo ${filtCount} de ${totalAll} registros`;
+  } else {
+    info.textContent = `${years.length} anos · ${totalAll} registros no total`;
+  }
 }
 
-function closeDep(e) {
-  if (e.target === document.getElementById('dep-overlay'))
-    document.getElementById('dep-overlay').style.display = 'none';
+function renderYear(year) {
+  let sel = year;
+  if (sel !== 'all') sel = Number(sel);
+  _activeYear = sel;
+  let rows = _allRows;
+  if (sel !== 'all') {
+    rows = _allRows.filter(r => r.DataObj && r.DataObj.getFullYear() === sel);
+    if (!rows.length) { alert('Nenhum registro encontrado para o ano ' + sel); return; }
+  }
+  const kpis = buildKPIs(rows);
+  render(kpis, false);
 }
 
-function openClasse(classe) {
-  const kpis = _kpis;
-  if (!kpis) return;
-
-  const TIPO_BADGE_STYLE = {
-    'Advertência escrita': 'background:#fff3dc;color:#b7750d',
-    'Advertência verbal':  'background:#d6eaf8;color:#1a5276',
-    'Suspensão':           'background:#fbeae8;color:#c0392b',
-  };
-  const TIPO_DOT = { 'Advertência escrita':'#b7750d','Advertência verbal':'#1a5276','Suspensão':'#c0392b' };
-
-  const registros = kpis.rows.filter(r => r.Classe === classe).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
-  const colabMap = {};
-  registros.forEach(r => {
-    if (!colabMap[r.Funcionario]) colabMap[r.Funcionario] = { nome:r.Funcionario, mat:r.Matricula, dep:r.Grupo, qtd:0, tiposCont:{}, piorTipo:'—', maxPeso:0, ultima:null, reincidente:false };
-    colabMap[r.Funcionario].qtd++;
-    colabMap[r.Funcionario].tiposCont[r.TipoDesc] = (colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
-    if ((PESO_MAP[r.Tipo]||0) > colabMap[r.Funcionario].maxPeso) { colabMap[r.Funcionario].maxPeso = PESO_MAP[r.Tipo]||0; colabMap[r.Funcionario].piorTipo = r.TipoDesc; }
-    if (!colabMap[r.Funcionario].ultima || (r.DataObj && r.DataObj > colabMap[r.Funcionario].ultima)) colabMap[r.Funcionario].ultima = r.DataObj;
-    if (r.Sequencia > 1) colabMap[r.Funcionario].reincidente = true;
-  });
-  const colabs = Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
-
-  document.getElementById('classe-titulo').textContent = classe;
-  document.getElementById('classe-subtitulo').textContent = `${registros.length} ocorrência(s) · ${colabs.length} colaborador(es) único(s)`;
-
-  // Summary chips por tipo
-  const tiposCont = {};
-  registros.forEach(r => { tiposCont[r.TipoDesc] = (tiposCont[r.TipoDesc]||0)+1; });
-  document.getElementById('classe-summary').innerHTML = Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-    const st = TIPO_BADGE_STYLE[t] || 'background:var(--paper-dark);color:var(--ink-soft)';
-    return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">${n}× ${t}</span>`;
-  }).join('');
-
-  const thead = `<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Total</th><th>Qtd. por Tipo</th><th>Tipo Mais Grave</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
-  const tbody = colabs.map(c => {
-    const st = TIPO_BADGE_STYLE[c.piorTipo] || 'background:var(--paper-dark);color:var(--ink-soft)';
-    const tipoBadge = `<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;">${c.piorTipo}</span>`;
-    const tiposDetalhes = Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-      const dot = TIPO_DOT[t]||'#8a8f9e';
-      return `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:12px;white-space:nowrap;">
-        <span style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0;display:inline-block;"></span>
-        <strong>${n}x</strong> ${t.replace('Advertência ','Adv. ')}
-      </span>`;
-    }).join('');
-    const nomeEsc = c.nome.replace(/'/g,"\\'");
-    const btnHist = `<button onclick="document.getElementById('classe-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--paper-dark);border:none;border-radius:8px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--gold-light)';this.style.color='var(--amber)'" onmouseout="this.style.background='var(--paper-dark)';this.style.color='var(--ink-soft)'">📋 Histórico</button>`;
-    return `<tr>
-      <td style="font-weight:600;white-space:nowrap;">${c.nome.length>30?c.nome.slice(0,30)+'…':c.nome}</td>
-      <td style="white-space:nowrap;">${c.mat||'—'}</td>
-      <td style="font-size:12px;color:var(--ink-muted);white-space:nowrap;">${c.dep||'—'}</td>
-      <td><strong>${c.qtd}</strong></td>
-      <td><div style="display:flex;flex-wrap:wrap;gap:2px;">${tiposDetalhes}</div></td>
-      <td>${tipoBadge}</td>
-      <td style="white-space:nowrap;">${formatDate(c.ultima)}</td>
-      <td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td>
-      <td>${btnHist}</td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('classe-table').innerHTML = `<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
-  document.getElementById('classe-overlay').style.display = 'block';
-}
-
-function openTipo(tipo) {
-  const kpis = _kpis;
-  if (!kpis) return;
-  const TIPO_BADGE_STYLE = {
-    'Advertência escrita': 'background:#fff3dc;color:#b7750d',
-    'Advertência verbal':      'background:#d6eaf8;color:#1a5276',
-    'Suspensão':               'background:#fbeae8;color:#c0392b',
-  };
-  const registros = kpis.rows.filter(r => r.TipoDesc === tipo).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
-  const colabUnicos = new Set(registros.map(r=>r.Funcionario)).size;
-
-  document.getElementById('tipo-titulo').textContent = tipo;
-  document.getElementById('tipo-subtitulo').textContent = `${registros.length} ocorrência(s) · ${colabUnicos} colaborador(es)`;
-
-  const thead = `<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Data</th><th>Seq.</th><th>Anotação</th><th></th></tr>`;
-  const tbody = registros.map(r=>{
-    const anotFull = r.Anotacoes.replace(/\n/g,'<br>');
-    const nomeEsc = r.Funcionario.replace(/'/g,"\\'");
-    const btnHist = `<button onclick="document.getElementById('tipo-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--paper-dark);border:none;border-radius:8px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--gold-light)';this.style.color='var(--amber)'" onmouseout="this.style.background='var(--paper-dark)';this.style.color='var(--ink-soft)'">📋 Histórico</button>`;
-    return `<tr>
-      <td style="font-weight:600;white-space:nowrap;vertical-align:top;">${r.Funcionario.length>26?r.Funcionario.slice(0,26)+'…':r.Funcionario}</td>
-      <td style="white-space:nowrap;vertical-align:top;">${r.Matricula||'—'}</td>
-      <td style="white-space:nowrap;vertical-align:top;font-size:12px;color:var(--ink-muted);">${r.Grupo||'—'}</td>
-      <td style="white-space:nowrap;vertical-align:top;">${formatDate(r.DataObj)}</td>
-      <td style="text-align:center;vertical-align:top;">${r.Sequencia||1}</td>
-      <td style="font-size:13px;color:var(--ink-soft);line-height:1.65;min-width:300px;">${anotFull}</td>
-      <td style="vertical-align:top;">${btnHist}</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('tipo-table').innerHTML = `<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
-  document.getElementById('tipo-overlay').style.display = 'block';
-}
-
-function closeTipo(e) {
-  if (e.target === document.getElementById('tipo-overlay'))
-    document.getElementById('tipo-overlay').style.display = 'none';
-}
-
-function openHist(nome) {
-  const kpis = _kpis;
-  if (!kpis) return;
-  const registros = kpis.rows.filter(r => r.Funcionario === nome).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
-  if (!registros.length) return;
-
-  const c = kpis.topColab.find(x=>x.nome===nome) || {};
-  document.getElementById('hist-nome').textContent = nome;
-  document.getElementById('hist-mat').textContent = [c.mat ? `Matrícula: ${c.mat}` : '', c.dep ? `Grupo: ${c.dep}` : '', c.classe ? `Classe: ${c.classe}` : ''].filter(Boolean).join(' · ');
-
-  // Summary chips
-  const TIPO_BADGE_STYLE = {
-    'Advertência escrita': 'background:#fff3dc;color:#b7750d',
-    'Advertência verbal':      'background:#d6eaf8;color:#1a5276',
-    'Suspensão':               'background:#fbeae8;color:#c0392b',
-  };
-  const tiposCont = c.tiposCont || {};
-  const chips = Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-    const st = TIPO_BADGE_STYLE[t] || 'background:var(--paper-dark);color:var(--ink-soft)';
-    return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">${n}× ${t}</span>`;
-  }).join('');
-  const reincBadge = c.reincidente ? `<span style="background:var(--red-light);color:var(--red);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">Reincidente</span>` : `<span style="background:var(--green-light);color:var(--green);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">Sem Reincidência</span>`;
-  document.getElementById('hist-summary').innerHTML = chips + reincBadge;
-
-  // Table
-  const thead = `<tr><th>Data</th><th>Tipo</th><th>Sequência</th><th>Anotação</th></tr>`;
-  const tbody = registros.map(r=>{
-    const st = TIPO_BADGE_STYLE[r.TipoDesc] || 'background:var(--paper-dark);color:var(--ink-soft)';
-    const badge = `<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap;">${r.TipoDesc}</span>`;
-    const anotFull = r.Anotacoes.replace(/\n/g,'<br>');
-    return `<tr>
-      <td style="white-space:nowrap;font-weight:600;vertical-align:top;">${formatDate(r.DataObj)}</td>
-      <td style="vertical-align:top;">${badge}</td>
-      <td style="text-align:center;vertical-align:top;">${r.Sequencia||1}</td>
-      <td style="font-size:13px;color:var(--ink-soft);line-height:1.65;min-width:360px;max-width:480px;">${anotFull}</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('hist-table').innerHTML = `<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
-  document.getElementById('hist-overlay').style.display = 'block';
-}
-
-function closeHist(e) {
-  if (e.target === document.getElementById('hist-overlay'))
-    document.getElementById('hist-overlay').style.display = 'none';
-}
-
-function render(kpis) {
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render(kpis, resetYearState) {
+  if (resetYearState === undefined || resetYearState === true) {
+    _activeYear = 'all';
+    _allRows = kpis.rows;
+  }
   _kpis = kpis;
+
+  // Rebuild year filter buttons (respects _activeYear and _allRows)
+  buildYearFilter(_allRows);
+
   document.getElementById('dash-empresa').textContent = `${kpis.empresa} · ${kpis.inicio} a ${kpis.fim}`;
   document.getElementById('topbar-meta').textContent = kpis.empresa;
 
@@ -968,7 +873,6 @@ function render(kpis) {
   const TYPE_CLS = { 'Advertência escrita':'adv-disc','Advertência verbal':'adv-verb','Suspensão':'susp' };
   const typeHTML = kpis.porTipoArr.map(t=>{
     const cls = TYPE_CLS[t.tipo] || 'adv-disc';
-    const leitura = t.qtd/kpis.total >= 0.5 ? 'Alta concentração' : 'Monitorar';
     const tipoEsc = t.tipo.replace(/'/g,"\\'");
     return `
     <div class="type-card ${cls}" onclick="openTipo('${tipoEsc}')" style="cursor:pointer;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
@@ -1002,12 +906,6 @@ function render(kpis) {
     'Tipo não mapeado':        '#8a8f9e',
   };
 
-  // Build per-month per-type breakdown
-  const mesMap = {};
-  kpis.porMesArr.forEach(m => { mesMap[m.mes] = { total: m.qtd, label: m.label, tipos: {} }; });
-  // We need per-type per-month — recalc from porMesArr but we only have totals;
-  // re-derive from raw rows stored in kpis.rowsRaw if available, else estimate from proportions
-  // Since we store mesTypeSplit in kpis, use that:
   const mesTypeSplit = kpis.mesTypeSplit || {};
 
   const tiposOrdem = ['Advertência escrita', 'Advertência verbal', 'Suspensão', 'Tipo não mapeado'];
@@ -1238,6 +1136,233 @@ function render(kpis) {
   dash.style.display = 'block';
 }
 
+// ── MODAL: DEPARTAMENTO ───────────────────────────────────────────────────────
+function openDep(dep) {
+  const kpis = _kpis;
+  if (!kpis) return;
+
+  const TIPO_BADGE_STYLE = {
+    'Advertência escrita':  'background:#fff3dc;color:#b7750d',
+    'Advertência verbal':   'background:#d6eaf8;color:#1a5276',
+    'Suspensão':            'background:#fbeae8;color:#c0392b',
+  };
+
+  const registros = kpis.rows.filter(r => r.Grupo === dep).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
+  const colabMap = {};
+  registros.forEach(r => {
+    if (!colabMap[r.Funcionario]) colabMap[r.Funcionario] = { nome:r.Funcionario, mat:r.Matricula, qtd:0, tiposCont:{}, piorTipo:'—', maxPeso:0, ultima:null, reincidente:false };
+    colabMap[r.Funcionario].qtd++;
+    colabMap[r.Funcionario].tiposCont[r.TipoDesc] = (colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
+    if ((PESO_MAP[r.Tipo]||0) > colabMap[r.Funcionario].maxPeso) { colabMap[r.Funcionario].maxPeso = PESO_MAP[r.Tipo]||0; colabMap[r.Funcionario].piorTipo = r.TipoDesc; }
+    if (!colabMap[r.Funcionario].ultima || (r.DataObj && r.DataObj > colabMap[r.Funcionario].ultima)) colabMap[r.Funcionario].ultima = r.DataObj;
+    if (r.Sequencia > 1) colabMap[r.Funcionario].reincidente = true;
+  });
+  const colabs = Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
+
+  document.getElementById('dep-titulo').textContent = dep;
+  document.getElementById('dep-subtitulo').textContent = `${registros.length} ocorrência(s) · ${colabs.length} colaborador(es) único(s)`;
+
+  const tiposCont = {};
+  registros.forEach(r => { tiposCont[r.TipoDesc] = (tiposCont[r.TipoDesc]||0)+1; });
+  document.getElementById('dep-summary').innerHTML = Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
+    const st = TIPO_BADGE_STYLE[t] || 'background:var(--paper-dark);color:var(--ink-soft)';
+    return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">${n}× ${t}</span>`;
+  }).join('');
+
+  const TIPO_DOT = { 'Advertência escrita':'#b7750d','Advertência verbal':'#1a5276','Suspensão':'#c0392b' };
+  const thead = `<tr><th>Colaborador</th><th>Mat.</th><th>Total</th><th>Qtd. por Tipo</th><th>Tipo Mais Grave</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
+  const tbody = colabs.map(c => {
+    const st = TIPO_BADGE_STYLE[c.piorTipo] || 'background:var(--paper-dark);color:var(--ink-soft)';
+    const tipoBadge = `<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;">${c.piorTipo}</span>`;
+    const tiposDetalhes = Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
+      const dot = TIPO_DOT[t]||'#8a8f9e';
+      return `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:12px;white-space:nowrap;">
+        <span style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0;display:inline-block;"></span>
+        <strong>${n}x</strong> ${t.replace('Advertência ','Adv. ')}
+      </span>`;
+    }).join('');
+    const nomeEsc = c.nome.replace(/'/g,"\\'");
+    const btnHist = `<button onclick="document.getElementById('dep-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--paper-dark);border:none;border-radius:8px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--gold-light)';this.style.color='var(--amber)'" onmouseout="this.style.background='var(--paper-dark)';this.style.color='var(--ink-soft)'">📋 Histórico</button>`;
+    return `<tr>
+      <td style="font-weight:600;white-space:nowrap;">${c.nome.length>30?c.nome.slice(0,30)+'…':c.nome}</td>
+      <td style="white-space:nowrap;">${c.mat||'—'}</td>
+      <td><strong>${c.qtd}</strong></td>
+      <td><div style="display:flex;flex-wrap:wrap;gap:2px;">${tiposDetalhes}</div></td>
+      <td>${tipoBadge}</td>
+      <td style="white-space:nowrap;">${formatDate(c.ultima)}</td>
+      <td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td>
+      <td>${btnHist}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('dep-table').innerHTML = `<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
+  document.getElementById('dep-overlay').style.display = 'block';
+}
+
+function closeDep(e) {
+  if (e.target === document.getElementById('dep-overlay'))
+    document.getElementById('dep-overlay').style.display = 'none';
+}
+
+// ── MODAL: CENTRO DE CUSTO ────────────────────────────────────────────────────
+function openClasse(classe) {
+  const kpis = _kpis;
+  if (!kpis) return;
+
+  const TIPO_BADGE_STYLE = {
+    'Advertência escrita': 'background:#fff3dc;color:#b7750d',
+    'Advertência verbal':  'background:#d6eaf8;color:#1a5276',
+    'Suspensão':           'background:#fbeae8;color:#c0392b',
+  };
+  const TIPO_DOT = { 'Advertência escrita':'#b7750d','Advertência verbal':'#1a5276','Suspensão':'#c0392b' };
+
+  const registros = kpis.rows.filter(r => r.Classe === classe).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
+  const colabMap = {};
+  registros.forEach(r => {
+    if (!colabMap[r.Funcionario]) colabMap[r.Funcionario] = { nome:r.Funcionario, mat:r.Matricula, dep:r.Grupo, qtd:0, tiposCont:{}, piorTipo:'—', maxPeso:0, ultima:null, reincidente:false };
+    colabMap[r.Funcionario].qtd++;
+    colabMap[r.Funcionario].tiposCont[r.TipoDesc] = (colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
+    if ((PESO_MAP[r.Tipo]||0) > colabMap[r.Funcionario].maxPeso) { colabMap[r.Funcionario].maxPeso = PESO_MAP[r.Tipo]||0; colabMap[r.Funcionario].piorTipo = r.TipoDesc; }
+    if (!colabMap[r.Funcionario].ultima || (r.DataObj && r.DataObj > colabMap[r.Funcionario].ultima)) colabMap[r.Funcionario].ultima = r.DataObj;
+    if (r.Sequencia > 1) colabMap[r.Funcionario].reincidente = true;
+  });
+  const colabs = Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
+
+  document.getElementById('classe-titulo').textContent = classe;
+  document.getElementById('classe-subtitulo').textContent = `${registros.length} ocorrência(s) · ${colabs.length} colaborador(es) único(s)`;
+
+  const tiposCont = {};
+  registros.forEach(r => { tiposCont[r.TipoDesc] = (tiposCont[r.TipoDesc]||0)+1; });
+  document.getElementById('classe-summary').innerHTML = Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
+    const st = TIPO_BADGE_STYLE[t] || 'background:var(--paper-dark);color:var(--ink-soft)';
+    return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">${n}× ${t}</span>`;
+  }).join('');
+
+  const thead = `<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Total</th><th>Qtd. por Tipo</th><th>Tipo Mais Grave</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
+  const tbody = colabs.map(c => {
+    const st = TIPO_BADGE_STYLE[c.piorTipo] || 'background:var(--paper-dark);color:var(--ink-soft)';
+    const tipoBadge = `<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;">${c.piorTipo}</span>`;
+    const tiposDetalhes = Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
+      const dot = TIPO_DOT[t]||'#8a8f9e';
+      return `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:12px;white-space:nowrap;">
+        <span style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0;display:inline-block;"></span>
+        <strong>${n}x</strong> ${t.replace('Advertência ','Adv. ')}
+      </span>`;
+    }).join('');
+    const nomeEsc = c.nome.replace(/'/g,"\\'");
+    const btnHist = `<button onclick="document.getElementById('classe-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--paper-dark);border:none;border-radius:8px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--gold-light)';this.style.color='var(--amber)'" onmouseout="this.style.background='var(--paper-dark)';this.style.color='var(--ink-soft)'">📋 Histórico</button>`;
+    return `<tr>
+      <td style="font-weight:600;white-space:nowrap;">${c.nome.length>30?c.nome.slice(0,30)+'…':c.nome}</td>
+      <td style="white-space:nowrap;">${c.mat||'—'}</td>
+      <td style="font-size:12px;color:var(--ink-muted);white-space:nowrap;">${c.dep||'—'}</td>
+      <td><strong>${c.qtd}</strong></td>
+      <td><div style="display:flex;flex-wrap:wrap;gap:2px;">${tiposDetalhes}</div></td>
+      <td>${tipoBadge}</td>
+      <td style="white-space:nowrap;">${formatDate(c.ultima)}</td>
+      <td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td>
+      <td>${btnHist}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('classe-table').innerHTML = `<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
+  document.getElementById('classe-overlay').style.display = 'block';
+}
+
+// ── MODAL: TIPO ───────────────────────────────────────────────────────────────
+function openTipo(tipo) {
+  const kpis = _kpis;
+  if (!kpis) return;
+  const TIPO_BADGE_STYLE = {
+    'Advertência escrita': 'background:#fff3dc;color:#b7750d',
+    'Advertência verbal':      'background:#d6eaf8;color:#1a5276',
+    'Suspensão':               'background:#fbeae8;color:#c0392b',
+  };
+  const registros = kpis.rows.filter(r => r.TipoDesc === tipo).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
+  const colabUnicos = new Set(registros.map(r=>r.Funcionario)).size;
+
+  document.getElementById('tipo-titulo').textContent = tipo;
+  document.getElementById('tipo-subtitulo').textContent = `${registros.length} ocorrência(s) · ${colabUnicos} colaborador(es)`;
+
+  const thead = `<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Data</th><th>Seq.</th><th>Anotação</th><th></th></tr>`;
+  const tbody = registros.map(r=>{
+    const anotFull = r.Anotacoes.replace(/\n/g,'<br>');
+    const nomeEsc = r.Funcionario.replace(/'/g,"\\'");
+    const btnHist = `<button onclick="document.getElementById('tipo-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--paper-dark);border:none;border-radius:8px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--gold-light)';this.style.color='var(--amber)'" onmouseout="this.style.background='var(--paper-dark)';this.style.color='var(--ink-soft)'">📋 Histórico</button>`;
+    return `<tr>
+      <td style="font-weight:600;white-space:nowrap;vertical-align:top;">${r.Funcionario.length>26?r.Funcionario.slice(0,26)+'…':r.Funcionario}</td>
+      <td style="white-space:nowrap;vertical-align:top;">${r.Matricula||'—'}</td>
+      <td style="white-space:nowrap;vertical-align:top;font-size:12px;color:var(--ink-muted);">${r.Grupo||'—'}</td>
+      <td style="white-space:nowrap;vertical-align:top;">${formatDate(r.DataObj)}</td>
+      <td style="text-align:center;vertical-align:top;">${r.Sequencia||1}</td>
+      <td style="font-size:13px;color:var(--ink-soft);line-height:1.65;min-width:300px;">${anotFull}</td>
+      <td style="vertical-align:top;">${btnHist}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tipo-table').innerHTML = `<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
+  document.getElementById('tipo-overlay').style.display = 'block';
+}
+
+function closeTipo(e) {
+  if (e.target === document.getElementById('tipo-overlay'))
+    document.getElementById('tipo-overlay').style.display = 'none';
+}
+
+// ── MODAL: HISTÓRICO COLABORADOR ──────────────────────────────────────────────
+function openHist(nome) {
+  // Always search in full _allRows so history is complete regardless of year filter
+  const sourceRows = _allRows || (_kpis ? _kpis.rows : []);
+  const registros = sourceRows.filter(r => r.Funcionario === nome).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
+  if (!registros.length) return;
+
+  // Rebuild colab summary from full history
+  const c = { nome, mat: null, dep: null, classe: null, qtd: registros.length, reincidente: false, tiposCont: {}, piorTipo: '—', maxPeso: 0, ultima: null };
+  registros.forEach(r => {
+    if (!c.mat) c.mat = r.Matricula;
+    if (!c.dep) c.dep = r.Grupo;
+    if (!c.classe) c.classe = r.Classe;
+    c.tiposCont[r.TipoDesc] = (c.tiposCont[r.TipoDesc] || 0) + 1;
+    if (r.Peso > c.maxPeso) { c.maxPeso = r.Peso; c.piorTipo = r.TipoDesc; }
+    if (!c.ultima || (r.DataObj && r.DataObj > c.ultima)) c.ultima = r.DataObj;
+    if (r.Sequencia > 1) c.reincidente = true;
+  });
+
+  document.getElementById('hist-nome').textContent = nome;
+  document.getElementById('hist-mat').textContent = [c.mat ? `Matrícula: ${c.mat}` : '', c.dep ? `Grupo: ${c.dep}` : '', c.classe ? `Classe: ${c.classe}` : ''].filter(Boolean).join(' · ');
+
+  const TIPO_BADGE_STYLE = {
+    'Advertência escrita': 'background:#fff3dc;color:#b7750d',
+    'Advertência verbal':      'background:#d6eaf8;color:#1a5276',
+    'Suspensão':               'background:#fbeae8;color:#c0392b',
+  };
+  const tiposCont = c.tiposCont || {};
+  const chips = Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
+    const st = TIPO_BADGE_STYLE[t] || 'background:var(--paper-dark);color:var(--ink-soft)';
+    return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">${n}× ${t}</span>`;
+  }).join('');
+  const reincBadge = c.reincidente ? `<span style="background:var(--red-light);color:var(--red);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">Reincidente</span>` : `<span style="background:var(--green-light);color:var(--green);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;">Sem Reincidência</span>`;
+  document.getElementById('hist-summary').innerHTML = chips + reincBadge;
+
+  const thead = `<tr><th>Data</th><th>Tipo</th><th>Sequência</th><th>Anotação</th></tr>`;
+  const tbody = registros.map(r=>{
+    const st = TIPO_BADGE_STYLE[r.TipoDesc] || 'background:var(--paper-dark);color:var(--ink-soft)';
+    const badge = `<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap;">${r.TipoDesc}</span>`;
+    const anotFull = r.Anotacoes.replace(/\n/g,'<br>');
+    return `<tr>
+      <td style="white-space:nowrap;font-weight:600;vertical-align:top;">${formatDate(r.DataObj)}</td>
+      <td style="vertical-align:top;">${badge}</td>
+      <td style="text-align:center;vertical-align:top;">${r.Sequencia||1}</td>
+      <td style="font-size:13px;color:var(--ink-soft);line-height:1.65;min-width:360px;max-width:480px;">${anotFull}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('hist-table').innerHTML = `<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
+  document.getElementById('hist-overlay').style.display = 'block';
+}
+
+function closeHist(e) {
+  if (e.target === document.getElementById('hist-overlay'))
+    document.getElementById('hist-overlay').style.display = 'none';
+}
+
 // ── EXPORT SNAPSHOT ─────────────────────────────────────────────────────────
 function exportSnapshot() {
   const kpis = _kpis;
@@ -1249,7 +1374,6 @@ function exportSnapshot() {
 
   setTimeout(() => {
     try {
-      // Serialise all row data as JSON
       const kpisJSON = JSON.stringify(kpis.rows.map(r => ({
         Empresa: r.Empresa,
         Data: r.DataObj ? r.DataObj.toISOString() : null,
@@ -1262,22 +1386,14 @@ function exportSnapshot() {
 
       const now = new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
 
-      // The boot script runs before anything else — it hijacks handleFile/parseExcel
-      // and calls render() directly with embedded data, so all functions are in scope
       const bootScript = `<script>
 (function() {
-  // Override parseExcel so the file handling path is never needed
-  // Instead, boot directly from embedded data on DOMContentLoaded
   const _embeddedRows = ${kpisJSON};
-
   window.addEventListener('DOMContentLoaded', function() {
-    // Hide upload, show dashboard
     document.getElementById('upload-screen').style.display = 'none';
     document.getElementById('dashboard-screen').style.display = 'block';
     document.getElementById('btn-reset').style.display = 'none';
     document.getElementById('btn-export').style.display = 'none';
-
-    // Insert banner
     const topbar = document.querySelector('.topbar');
     if (topbar) {
       const banner = document.createElement('div');
@@ -1285,36 +1401,22 @@ function exportSnapshot() {
       banner.textContent = '📊 Dashboard exportado em ${now} · Período ${kpis.inicio} a ${kpis.fim}';
       topbar.insertAdjacentElement('afterend', banner);
     }
-
-    // Reconstruct rows with Date objects and run the full pipeline
-    const rows = _embeddedRows.map(r => ({
-      ...r,
-      DataObj: r.Data ? new Date(r.Data) : null,
-    }));
-
+    const rows = _embeddedRows.map(r => ({ ...r, DataObj: r.Data ? new Date(r.Data) : null }));
     const kpis = buildKPIs(rows);
-    render(kpis);
+    render(kpis, true);
   });
 })();
 <\/script>`;
 
-      // Grab the full page HTML
       let out = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-
-      // Remove XLSX external script (not needed — no file parsing in snapshot)
       out = out.replace(/<script[^>]*xlsx[^>]*><\/script>/gi, '');
-
-      // Inject boot script right after <head> opening so it loads first
       out = out.replace('<head>', '<head>\n' + bootScript);
-
-      // Add snapshot CSS overrides
       out = out.replace('</head>', `<style>
   #upload-screen { display:none !important; }
   .btn-reset, .btn-export { display:none !important; }
   .demo-btn { display:none !important; }
 </style>\n</head>`);
 
-      // Download
       const blob = new Blob([out], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -1340,7 +1442,7 @@ function handleFile(buffer) {
     const raw = parseExcel(buffer);
     if (!raw.length) { alert('Planilha vazia ou colunas não encontradas. Verifique o arquivo.'); return; }
     const kpis = buildKPIs(raw);
-    render(kpis);
+    render(kpis, true);
   } catch(e) {
     alert('Erro ao processar arquivo: ' + e.message);
     console.error(e);
@@ -1368,6 +1470,9 @@ dz.addEventListener('drop', e=>{
 });
 
 document.getElementById('btn-reset').addEventListener('click', ()=>{
+  _allRows = null;
+  _activeYear = 'all';
+  document.getElementById('year-filter-bar').classList.add('hidden');
   document.getElementById('dashboard-screen').style.display = 'none';
   document.getElementById('upload-screen').style.display = 'flex';
   document.getElementById('file-input').value = '';
@@ -1376,25 +1481,25 @@ document.getElementById('btn-reset').addEventListener('click', ()=>{
 // ── DEMO DATA ─────────────────────────────────────────────────────────────
 document.getElementById('demo-btn').addEventListener('click', ()=>{
   const demoRows = [
-    {Empresa:'Organização Exemplo',Data:new Date('2026-01-04'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Aline Exemplo',Sequencia:1,Tipo:3,Matricula:4101,Anotacoes:'discussão com colega durante troca de turno, com conduta inadequada e impacto na convivência da equipe'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-01-09'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Bruno Exemplo',Sequencia:1,Tipo:2,Matricula:4102,Anotacoes:'omitiu comunicação de quase incidente com equipamento em área operacional'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-01-12'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Camila Exemplo',Sequencia:1,Tipo:2,Matricula:4103,Anotacoes:'descumprimento de procedimento interno e falha no reporte à liderança'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-01-18'),Departamento:'Manutenção','Centro de Custo':'CC-003',Funcionario:'Diego Exemplo',Sequencia:1,Tipo:4,Matricula:4104,Anotacoes:'conduta agressiva com supervisor após orientação formal, com risco para a equipe'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-01-21'),Departamento:'Segurança','Centro de Custo':'CC-004',Funcionario:'Elisa Exemplo',Sequencia:1,Tipo:2,Matricula:4105,Anotacoes:'falha em checklist de segurança antes de iniciar atividade com equipamento'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-01-27'),Departamento:'Administrativo','Centro de Custo':'CC-005',Funcionario:'Fábio Exemplo',Sequencia:1,Tipo:3,Matricula:4106,Anotacoes:'desrespeito verbal a colega, prejudicando a convivência e o clima da equipe'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-02-03'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Gabriela Exemplo',Sequencia:1,Tipo:2,Matricula:4107,Anotacoes:'quebra de procedimento em manobra interna com dano leve em estrutura patrimonial'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-02-06'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Henrique Exemplo',Sequencia:1,Tipo:2,Matricula:4108,Anotacoes:'ausência sem comunicação no início da jornada, impactando a escala operacional'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-01-04'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Aline Exemplo',Sequencia:1,Tipo:3,Matricula:4101,Anotacoes:'discussão com colega durante troca de turno, com conduta inadequada e impacto na convivência da equipe'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-03-09'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Bruno Exemplo',Sequencia:1,Tipo:2,Matricula:4102,Anotacoes:'omitiu comunicação de quase incidente com equipamento em área operacional'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-05-12'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Camila Exemplo',Sequencia:1,Tipo:2,Matricula:4103,Anotacoes:'descumprimento de procedimento interno e falha no reporte à liderança'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-07-18'),Departamento:'Manutenção','Centro de Custo':'CC-003',Funcionario:'Diego Exemplo',Sequencia:1,Tipo:4,Matricula:4104,Anotacoes:'conduta agressiva com supervisor após orientação formal, com risco para a equipe'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-09-21'),Departamento:'Segurança','Centro de Custo':'CC-004',Funcionario:'Elisa Exemplo',Sequencia:1,Tipo:2,Matricula:4105,Anotacoes:'falha em checklist de segurança antes de iniciar atividade com equipamento'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-11-27'),Departamento:'Administrativo','Centro de Custo':'CC-005',Funcionario:'Fábio Exemplo',Sequencia:1,Tipo:3,Matricula:4106,Anotacoes:'desrespeito verbal a colega, prejudicando a convivência e o clima da equipe'},
+    {Empresa:'Organização Exemplo',Data:new Date('2026-01-03'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Gabriela Exemplo',Sequencia:1,Tipo:2,Matricula:4107,Anotacoes:'quebra de procedimento em manobra interna com dano leve em estrutura patrimonial'},
+    {Empresa:'Organização Exemplo',Data:new Date('2026-01-06'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Henrique Exemplo',Sequencia:1,Tipo:2,Matricula:4108,Anotacoes:'ausência sem comunicação no início da jornada, impactando a escala operacional'},
     {Empresa:'Organização Exemplo',Data:new Date('2026-02-11'),Departamento:'Segurança','Centro de Custo':'CC-004',Funcionario:'Isabela Exemplo',Sequencia:1,Tipo:2,Matricula:4109,Anotacoes:'retirada inadequada de equipamento de proteção em área ativa, contrariando norma interna'},
     {Empresa:'Organização Exemplo',Data:new Date('2026-02-17'),Departamento:'Administrativo','Centro de Custo':'CC-005',Funcionario:'João Exemplo',Sequencia:1,Tipo:2,Matricula:4110,Anotacoes:'uso indevido de instalações coletivas, em desacordo com o regulamento interno'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-02-19'),Departamento:'Manutenção','Centro de Custo':'CC-003',Funcionario:'Karen Exemplo',Sequencia:1,Tipo:2,Matricula:4111,Anotacoes:'recusa injustificada de atividade planejada sem alinhamento prévio com a supervisão'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-02-24'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Lucas Exemplo',Sequencia:1,Tipo:2,Matricula:4112,Anotacoes:'comunicação tardia de colisão em veículo interno, descumprindo procedimento padrão'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-03-02'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Marina Exemplo',Sequencia:1,Tipo:2,Matricula:4113,Anotacoes:'interrupção não autorizada de atividade sem informar a liderança imediata'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-03-08'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Nicolas Exemplo',Sequencia:2,Tipo:2,Matricula:4114,Anotacoes:'não compareceu após transporte corporativo e falhou em comunicar ausência à gestão'},
-    {Empresa:'Organização Exemplo',Data:new Date('2026-03-14'),Departamento:'Administrativo','Centro de Custo':'CC-005',Funcionario:'Olívia Exemplo',Sequencia:2,Tipo:3,Matricula:4115,Anotacoes:'tratou colega com ironia e palavras ofensivas durante atendimento interno'},
+    {Empresa:'Organização Exemplo',Data:new Date('2026-03-19'),Departamento:'Manutenção','Centro de Custo':'CC-003',Funcionario:'Karen Exemplo',Sequencia:1,Tipo:2,Matricula:4111,Anotacoes:'recusa injustificada de atividade planejada sem alinhamento prévio com a supervisão'},
+    {Empresa:'Organização Exemplo',Data:new Date('2026-03-24'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Lucas Exemplo',Sequencia:1,Tipo:2,Matricula:4112,Anotacoes:'comunicação tardia de colisão em veículo interno, descumprindo procedimento padrão'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-04-02'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Marina Exemplo',Sequencia:1,Tipo:2,Matricula:4113,Anotacoes:'interrupção não autorizada de atividade sem informar a liderança imediata'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-08-08'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Nicolas Exemplo',Sequencia:2,Tipo:2,Matricula:4114,Anotacoes:'não compareceu após transporte corporativo e falhou em comunicar ausência à gestão'},
+    {Empresa:'Organização Exemplo',Data:new Date('2025-10-14'),Departamento:'Administrativo','Centro de Custo':'CC-005',Funcionario:'Olívia Exemplo',Sequencia:2,Tipo:3,Matricula:4115,Anotacoes:'tratou colega com ironia e palavras ofensivas durante atendimento interno'},
     {Empresa:'Organização Exemplo',Data:new Date('2026-03-18'),Departamento:'Manutenção','Centro de Custo':'CC-003',Funcionario:'Paulo Exemplo',Sequencia:1,Tipo:4,Matricula:4116,Anotacoes:'descumpriu bloqueio operacional em atividade crítica, elevando o risco de incidente grave'},
   ];
   const kpis = buildKPIs(demoRows);
-  render(kpis);
+  render(kpis, true);
 });
 </script>
 </body>
