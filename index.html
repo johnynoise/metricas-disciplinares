@@ -471,7 +471,7 @@
   <div class="section-label animate-in delay-4">Evolução Mensal</div>
   <div class="panel full-panel animate-in delay-4">
     <div class="panel-title">Medidas por Mês · Distribuição por Tipo</div>
-    <div class="month-summary-row" id="month-summary-row"></div>
+    
     <div class="month-chart-wrap" style="margin-top:24px;">
       <svg id="month-svg" class="month-svg" viewBox="0 0 900 260" preserveAspectRatio="xMidYMid meet"></svg>
     </div>
@@ -804,12 +804,11 @@ function buildYearFilter(rows) {
   bar.classList.remove('hidden');
 
   const totalAll = rows.length;
-  let html = `<option value="all"${_activeYear === 'all' ? ' selected' : ''}>Todos (${totalAll})</option>`;
+  let html = `<option value="all"${_activeYear === 'all' ? ' selected' : ''}>Todos</option>`;
 
   years.forEach(y => {
-    const count = rows.filter(r => r.DataObj && r.DataObj.getFullYear() === y).length;
     const isActive = _activeYear === y;
-    html += `<option value="${y}"${isActive ? ' selected' : ''}>${y} (${count})</option>`;
+    html += `<option value="${y}"${isActive ? ' selected' : ''}>${y}</option>`;
   });
 
   select.innerHTML = html;
@@ -973,17 +972,7 @@ function render(kpis, resetYearState) {
     `<div class="month-legend-item"><div class="month-legend-dot" style="background:${TIPO_COLORS_CHART[t]}"></div>${t}</div>`
   ).join('');
 
-  // Summary stats
-  const totals = meses.map(m => m.qtd);
-  const mediaM = (totals.reduce((a,b)=>a+b,0)/Math.max(totals.length,1)).toFixed(1);
-  const picoM = meses.reduce((a,b)=>b.qtd>a.qtd?b:a, meses[0]||{label:'—',qtd:0});
-  const menorM = meses.reduce((a,b)=>b.qtd<a.qtd?b:a, meses[0]||{label:'—',qtd:0});
-  document.getElementById('month-summary-row').innerHTML = [
-    { label: 'Meses analisados', value: meses.length },
-    { label: 'Média mensal', value: mediaM },
-    { label: 'Pico', value: `${picoM.qtd} · ${picoM.label||''}` },
-    { label: 'Menor volume', value: `${menorM.qtd} · ${menorM.label||''}` },
-  ].map(s=>`<div class="month-stat"><div class="month-stat-label">${s.label}</div><div class="month-stat-value">${s.value}</div></div>`).join('');
+  // Summary stats (removed: showing only chart per user request)
 
   // Detail table
   const thM = s => `<th>${s}</th>`;
