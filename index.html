@@ -857,7 +857,7 @@ function render(kpis, resetYearState) {
     { label:'Total de Medidas',        value: kpis.total,                     sub:`${kpis.meses} mês(es) analisado(s)`,                       cls:'' },
     { label:'Colaboradores Impactados',value: kpis.colaboradores,             sub:'matrículas únicas',                                         cls:'' },
     { label:'Reincidências (Seq>1)',   value: kpis.reincidencias,             sub:`${(kpis.reincidencias/kpis.total*100).toFixed(1)}% do total`, cls: kpis.reincidencias>0?'warn':'ok' },
-    { label:'Tipo Mais Frequente',     value: tipoDom.tipo||'—',              sub:`${tipoDom.pct||''} das medidas (${tipoDom.qtd||0} registros)`, cls:'warn', isText:true },
+    
     { label:'Depto. com Mais Medidas',  value: depDom.dep||'—',               sub:`${depDom.pct||''} do total · ${depDom.qtd||0} ocorrências`,  cls:'alert', isText:true },
     { label:'C.Custo com Mais Medidas', value: classeDom.classe||'—',          sub:`${classeDom.pct||''} do total · ${classeDom.qtd||0} ocorrências`, cls:'', isText:true },
     { label:'Período Analisado',       value: kpis.inicio,                    sub:`até ${kpis.fim}`,                                           cls:'', isText:true },
