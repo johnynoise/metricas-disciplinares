@@ -669,7 +669,7 @@
 
   <div class="dash-footer">
     <strong>Legenda:</strong> Tipo 002 = Advertência escrita · Tipo 003 = Advertência verbal · Tipo 004 = Suspensão.
-    A coluna <em>Sequencia</em> representa a ordem da medida aplicada ao colaborador; valores &gt; 1 indicam reincidência.
+    A coluna <em>Sequencia</em> representa a ordem da medida quando presente. Neste dashboard a reincidência é calculada automaticamente: será marcada quando um colaborador receber uma segunda advertência (verbal ou escrita) dentro de 1 ano da primeira.
     Os dados são processados localmente no navegador — nenhuma informação é transmitida externamente.
   </div>
 </div>
@@ -858,8 +858,8 @@ function buildKPIs(raw) {
     const pico = [...porMesArr].sort((a,b)=>b.qtd-a.qtd)[0];
     insights.push(`O mês com maior volume foi <strong>${pico.label}</strong>, com <strong>${pico.qtd}</strong> registro(s).`);
   }
-  if (reincidencias > 0) insights.push(`Há <strong>${reincidencias}</strong> medida(s) com Sequência &gt; 1, equivalente a <strong>${pct(reincidencias,total)}</strong> do total — requer atenção em reincidência.`);
-  else insights.push('Não há medidas com Sequência maior que 1 na base atual — baixa repetição formal de casos.');
+  if (reincidencias > 0) insights.push(`Há <strong>${reincidencias}</strong> medida(s) marcadas como reincidência, equivalente a <strong>${pct(reincidencias,total)}</strong> do total — requer atenção em reincidência.`);
+  else insights.push('Não há medidas marcadas como reincidência na base atual — baixa repetição formal de casos.');
   if (porDepArr.length) insights.push(`O departamento com mais ocorrências é <strong>${porDepArr[0].dep}</strong>, com <strong>${porDepArr[0].qtd}</strong> medida(s) — equivalente a <strong>${porDepArr[0].pct}</strong> do total.`);
   if (porClasseArr.length) insights.push(`O centro de custo mais frequente é <strong>${porClasseArr[0].classe}</strong>, com <strong>${porClasseArr[0].qtd}</strong> medida(s) — <strong>${porClasseArr[0].pct}</strong> do total.`);
 
@@ -917,7 +917,7 @@ function render(kpis, resetYearState) {
   const kpiCards = [
     { label:'Total de Medidas',          value: kpis.total,         sub:`${kpis.meses} mês(es) analisado(s)`, cls:'' },
     { label:'Colaboradores Impactados',  value: kpis.colaboradores, sub:'matrículas únicas',                   cls:'' },
-    { label:'Reincidências (Seq>1)',      value: kpis.reincidencias, sub:`${(kpis.reincidencias/kpis.total*100).toFixed(1)}% do total`, cls: kpis.reincidencias>0?'warn':'ok' },
+    { label:'Reincidências',      value: kpis.reincidencias, sub:`${(kpis.reincidencias/kpis.total*100).toFixed(1)}% do total`, cls: kpis.reincidencias>0?'warn':'ok' },
     { label:'Depto. com Mais Medidas',   value: depDom.dep||'—',    sub:`${depDom.pct||''} do total · ${depDom.qtd||0} ocorrências`, cls:'alert', isText:true },
   ];
   document.getElementById('kpi-grid').innerHTML = kpiCards.map(c=>`
@@ -1154,7 +1154,7 @@ function openDep(dep) {
     colabMap[r.Funcionario].tiposCont[r.TipoDesc]=(colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
     if((PESO_MAP[r.Tipo]||0)>colabMap[r.Funcionario].maxPeso){colabMap[r.Funcionario].maxPeso=PESO_MAP[r.Tipo]||0;colabMap[r.Funcionario].piorTipo=r.TipoDesc;}
     if(!colabMap[r.Funcionario].ultima||(r.DataObj&&r.DataObj>colabMap[r.Funcionario].ultima))colabMap[r.Funcionario].ultima=r.DataObj;
-    if(r.Sequencia>1)colabMap[r.Funcionario].reincidente=true;
+    if(r.Reincidente)colabMap[r.Funcionario].reincidente=true;
   });
   const colabs=Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
   document.getElementById('dep-titulo').textContent=dep;
@@ -1188,7 +1188,7 @@ function openClasse(classe) {
     colabMap[r.Funcionario].qtd++;colabMap[r.Funcionario].tiposCont[r.TipoDesc]=(colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
     if((PESO_MAP[r.Tipo]||0)>colabMap[r.Funcionario].maxPeso){colabMap[r.Funcionario].maxPeso=PESO_MAP[r.Tipo]||0;colabMap[r.Funcionario].piorTipo=r.TipoDesc;}
     if(!colabMap[r.Funcionario].ultima||(r.DataObj&&r.DataObj>colabMap[r.Funcionario].ultima))colabMap[r.Funcionario].ultima=r.DataObj;
-    if(r.Sequencia>1)colabMap[r.Funcionario].reincidente=true;
+    if(r.Reincidente)colabMap[r.Funcionario].reincidente=true;
   });
   const colabs=Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
   document.getElementById('classe-titulo').textContent=classe;
@@ -1236,7 +1236,7 @@ function openHist(nome) {
     c.tiposCont[r.TipoDesc]=(c.tiposCont[r.TipoDesc]||0)+1;
     if(r.Peso>c.maxPeso){c.maxPeso=r.Peso;c.piorTipo=r.TipoDesc;}
     if(!c.ultima||(r.DataObj&&r.DataObj>c.ultima))c.ultima=r.DataObj;
-    if(r.Sequencia>1)c.reincidente=true;
+    if(r.Reincidente)c.reincidente=true;
   });
   document.getElementById('hist-nome').textContent=nome;
   document.getElementById('hist-mat').textContent=[c.mat?`Matrícula: ${c.mat}`:'',c.dep?`Grupo: ${c.dep}`:'',c.classe?`Classe: ${c.classe}`:''].filter(Boolean).join(' · ');
