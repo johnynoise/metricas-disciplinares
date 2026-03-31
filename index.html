@@ -777,8 +777,27 @@ function buildKPIs(raw) {
       r.DataObj = isNaN(dt) ? null : dt;
     }
     if (!r.AnoMes) r.AnoMes = r.DataObj ? `${r.DataObj.getFullYear()}-${String(r.DataObj.getMonth()+1).padStart(2,'0')}` : 'N/A';
-    if (r.Reincidente == null) r.Reincidente = r.Sequencia > 1;
+    if (r.Reincidente == null) r.Reincidente = null;
     if (!r.Categoria) r.Categoria = classifyCat(r.Anotacoes);
+  });
+
+  // Compute reincidência automatically: mark as reincidente when a collaborator
+  // receives a second advert (verbal or written) within 1 year of a prior advert.
+  rows.sort((a,b)=> (a.DataObj||0) - (b.DataObj||0));
+  const oneYearMs = 365 * 24 * 60 * 60 * 1000;
+  const advMap = {}; // key -> array of advert timestamps
+  rows.forEach(r => {
+    const key = r.Matricula || r.Funcionario || '__unknown__';
+    const tipoDesc = String(r.TipoDesc || '').toLowerCase();
+    const isAdvert = (r.Tipo === 2 || r.Tipo === 3) || tipoDesc.includes('advert');
+    if (!advMap[key]) advMap[key] = [];
+    if (isAdvert && r.DataObj) {
+      const prevWithinYear = advMap[key].some(ts => (r.DataObj.getTime() - ts) <= oneYearMs);
+      r.Reincidente = prevWithinYear === true;
+      advMap[key].push(r.DataObj.getTime());
+    } else {
+      if (r.Reincidente == null) r.Reincidente = false;
+    }
   });
 
   const total = rows.length;
