@@ -723,8 +723,6 @@ function render(kpis, resetYearState) {
     { label:'Colaboradores Impactados',  value: kpis.colaboradores, sub:'matrículas únicas', cls:'' },
     { label:'Reincidências',             value: kpis.reincidencias, sub:`${(kpis.reincidencias/kpis.total*100).toFixed(1)}% do total`, cls: kpis.reincidencias>0?'warn':'ok' },
     { label:'Depto. com Mais Medidas',   value: depDom.dep||'—',    sub:`${depDom.pct||''} · ${depDom.qtd||0} ocorrências`, cls:'alert', isText:true },
-    { label:'Gerência com Mais Medidas', value: gerDom.gerencia||'—', sub:`${pct(gerDom.qtd||0,kpis.total)} · ${gerDom.qtd||0} ocorrências`, cls:'purple', isText:true },
-    { label:'Motivo Predominante',       value: motDom.motivo||'—',  sub:`${pct(motDom.qtd||0,kpis.total)} · ${motDom.qtd||0} ocorrências`, cls:'orange', isText:true },
   ];
 
   document.getElementById('kpi-grid').innerHTML = kpiCards.map(c=>`
