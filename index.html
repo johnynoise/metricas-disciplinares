@@ -9,78 +9,55 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* G Mining Ventures brand palette */
     --teal:        #0E5D73;
     --teal-dark:   #083D4F;
     --teal-mid:    #0F4A5C;
     --teal-light:  #1A7A96;
     --teal-pale:   #D6EBF0;
     --teal-muted:  #E8F4F8;
-
     --gold:        #B8922A;
     --gold-bright: #C9A84C;
     --gold-light:  #F0D9A0;
     --gold-pale:   #FAF3DC;
     --gold-dark:   #7A5F18;
-
     --ink:         #0A1A20;
     --ink-soft:    #2E4A56;
     --ink-muted:   #6B8A96;
     --paper:       #F5F8FA;
     --paper-dark:  #E8EFF3;
     --white:       #FFFFFF;
-
     --red:         #B83232;
     --red-light:   #FAE8E8;
     --green:       #1A6B40;
     --green-light: #D5EFDE;
     --amber:       #966A0A;
     --amber-light: #FEF3D8;
-
     --line:        rgba(14,93,115,0.13);
     --shadow:      0 2px 16px rgba(14,93,115,0.10);
     --shadow-lg:   0 8px 36px rgba(14,93,115,0.16);
-
-    /* Hex pattern */
-    --hex-stroke:  rgba(184,146,42,0.35);
+    --purple:      #6B3FA0;
+    --purple-light:#F0E8FF;
+    --orange:      #C46A00;
+    --orange-light:#FFF0DC;
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    min-height: 100vh;
-  }
+  body { font-family: 'Barlow', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
 
   /* ── TOPBAR ── */
   .topbar {
-    background: var(--teal-dark);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    height: 58px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: var(--teal-dark); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 58px;
+    position: sticky; top: 0; z-index: 100;
     border-bottom: 2px solid var(--gold);
   }
   .topbar-brand {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-size: 20px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; display: flex; align-items: center; gap: 10px;
   }
   .topbar-brand-dot {
-    width: 8px; height: 8px;
-    background: var(--gold);
+    width: 8px; height: 8px; background: var(--gold);
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     flex-shrink: 0;
   }
@@ -88,297 +65,85 @@
 
   /* ── UPLOAD ── */
   #upload-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 58px);
-    padding: 60px 24px;
-    position: relative;
-    overflow: hidden;
-    background: var(--teal-dark);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: calc(100vh - 58px); padding: 60px 24px;
+    position: relative; overflow: hidden; background: var(--teal-dark);
   }
-
-  /* Hex background pattern */
   #upload-screen::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+    content: ''; position: absolute; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cpolygon points='60,2 118,32 118,72 60,102 2,72 2,32' fill='none' stroke='rgba(184,146,42,0.25)' stroke-width='1.5'/%3E%3C/svg%3E");
-    background-size: 120px 104px;
-    opacity: 1;
-    pointer-events: none;
+    background-size: 120px 104px; opacity: 1; pointer-events: none;
   }
-
-  .upload-eyebrow {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold-bright);
-    font-weight: 700;
-    margin-bottom: 16px;
-    position: relative;
-  }
-  .upload-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(36px, 5.5vw, 64px);
-    font-weight: 800;
-    line-height: 1.05;
-    text-align: center;
-    max-width: 620px;
-    margin-bottom: 12px;
-    color: #fff;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    position: relative;
-  }
+  .upload-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-bright); font-weight: 700; margin-bottom: 16px; position: relative; }
+  .upload-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(36px, 5.5vw, 64px); font-weight: 800; line-height: 1.05; text-align: center; max-width: 620px; margin-bottom: 12px; color: #fff; letter-spacing: 0.02em; text-transform: uppercase; position: relative; }
   .upload-title span { color: var(--gold-bright); }
-  .upload-sub {
-    color: rgba(255,255,255,0.55);
-    font-size: 14px;
-    text-align: center;
-    max-width: 420px;
-    line-height: 1.65;
-    margin-bottom: 44px;
-    font-weight: 400;
-    position: relative;
-  }
-
-  .drop-zone {
-    width: 100%;
-    max-width: 480px;
-    border: 1.5px dashed rgba(184,146,42,0.5);
-    border-radius: 16px;
-    background: rgba(255,255,255,0.06);
-    padding: 52px 40px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s, transform 0.2s;
-    position: relative;
-    backdrop-filter: blur(4px);
-  }
-  .drop-zone:hover, .drop-zone.drag-over {
-    border-color: var(--gold-bright);
-    background: rgba(184,146,42,0.12);
-    transform: translateY(-2px);
-  }
-  .drop-zone input[type=file] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-  }
-  .drop-icon {
-    width: 52px; height: 52px; margin: 0 auto 18px;
-    background: rgba(184,146,42,0.18);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(184,146,42,0.35);
-  }
+  .upload-sub { color: rgba(255,255,255,0.55); font-size: 14px; text-align: center; max-width: 420px; line-height: 1.65; margin-bottom: 44px; font-weight: 400; position: relative; }
+  .drop-zone { width: 100%; max-width: 480px; border: 1.5px dashed rgba(184,146,42,0.5); border-radius: 16px; background: rgba(255,255,255,0.06); padding: 52px 40px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.2s; position: relative; backdrop-filter: blur(4px); }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--gold-bright); background: rgba(184,146,42,0.12); transform: translateY(-2px); }
+  .drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .drop-icon { width: 52px; height: 52px; margin: 0 auto 18px; background: rgba(184,146,42,0.18); border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(184,146,42,0.35); }
   .drop-icon svg { width: 26px; height: 26px; stroke: var(--gold-bright); }
   .drop-label { font-weight: 700; font-size: 16px; margin-bottom: 6px; color: #fff; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.04em; text-transform: uppercase; }
   .drop-hint { font-size: 13px; color: rgba(255,255,255,0.45); }
-  .drop-formats {
-    display: flex; gap: 8px; justify-content: center; margin-top: 18px;
-  }
-  .drop-formats span {
-    background: rgba(184,146,42,0.2);
-    border: 1px solid rgba(184,146,42,0.4);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--gold-bright);
-    font-family: 'Barlow Condensed', sans-serif;
-  }
-
-  .demo-btn {
-    margin-top: 22px;
-    background: none;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px;
-    padding: 10px 22px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px;
-    color: rgba(255,255,255,0.55);
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-    position: relative;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-  }
+  .drop-formats { display: flex; gap: 8px; justify-content: center; margin-top: 18px; }
+  .drop-formats span { background: rgba(184,146,42,0.2); border: 1px solid rgba(184,146,42,0.4); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--gold-bright); font-family: 'Barlow Condensed', sans-serif; }
+  .demo-btn { margin-top: 22px; background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 22px; font-family: 'Barlow', sans-serif; font-size: 13px; color: rgba(255,255,255,0.55); cursor: pointer; transition: border-color 0.2s, color 0.2s; position: relative; font-weight: 500; letter-spacing: 0.03em; }
   .demo-btn:hover { border-color: var(--gold-bright); color: var(--gold-bright); }
 
   /* ── YEAR FILTER ── */
-  .year-filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-    background: var(--white);
-    border-radius: 12px;
-    padding: 14px 20px;
-    box-shadow: var(--shadow);
-    border-left: 4px solid var(--gold);
-  }
-  .year-filter-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-weight: 700;
-    color: var(--ink-muted);
-    margin-right: 4px;
-    flex-shrink: 0;
-    font-family: 'Barlow Condensed', sans-serif;
-  }
-  .year-btn {
-    background: var(--paper-dark);
-    border: 1.5px solid transparent;
-    border-radius: 8px;
-    padding: 6px 16px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
-  }
-  .year-select {
-    appearance: none;
-    -webkit-appearance: none;
-    border: 1.5px solid var(--line);
-    background: #fff;
-    padding: 7px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    color: var(--ink);
-    font-weight: 600;
-    min-width: 160px;
-    font-family: 'Barlow', sans-serif;
-  }
-  .year-btn:hover { background: var(--gold-pale); color: var(--gold-dark); border-color: var(--gold-light); transform: translateY(-1px); }
-  .year-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
-  .year-btn.all { border-style: dashed; border-color: var(--line); }
-  .year-btn.all.active { border-style: solid; }
+  .year-filter-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; background: var(--white); border-radius: 12px; padding: 14px 20px; box-shadow: var(--shadow); border-left: 4px solid var(--gold); }
+  .year-filter-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; color: var(--ink-muted); margin-right: 4px; flex-shrink: 0; font-family: 'Barlow Condensed', sans-serif; }
+  .year-select { appearance: none; -webkit-appearance: none; border: 1.5px solid var(--line); background: #fff; padding: 7px 12px; border-radius: 8px; font-size: 13px; color: var(--ink); font-weight: 600; min-width: 160px; font-family: 'Barlow', sans-serif; }
   .year-filter-bar.hidden { display: none; }
   .year-filter-info { margin-left: auto; font-size: 12px; color: var(--ink-muted); font-style: italic; }
 
   /* ── DASHBOARD ── */
   #dashboard-screen { display: none; padding: 36px 40px; max-width: 1420px; margin: 0 auto; }
 
-  .dash-header {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    margin-bottom: 32px; gap: 24px; flex-wrap: wrap;
-  }
-  .dash-eyebrow {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--gold); font-weight: 700; margin-bottom: 4px;
-  }
-  .dash-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 36px; font-weight: 800; line-height: 1.05;
-    letter-spacing: 0.03em; text-transform: uppercase;
-    color: var(--teal-dark);
-  }
+  .dash-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 32px; gap: 24px; flex-wrap: wrap; }
+  .dash-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .dash-title { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; line-height: 1.05; letter-spacing: 0.03em; text-transform: uppercase; color: var(--teal-dark); }
   .dash-empresa { color: var(--ink-muted); font-size: 13px; margin-top: 4px; font-weight: 500; }
   .dash-actions { display: flex; gap: 10px; align-items: center; }
-
-  .btn-reset {
-    background: var(--paper-dark); border: 1px solid var(--line);
-    border-radius: 8px; padding: 9px 16px;
-    font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600;
-    color: var(--ink-soft); cursor: pointer; transition: background 0.2s;
-  }
+  .btn-reset { background: var(--paper-dark); border: 1px solid var(--line); border-radius: 8px; padding: 9px 16px; font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; color: var(--ink-soft); cursor: pointer; transition: background 0.2s; }
   .btn-reset:hover { background: #d8e2e7; }
-
-  .btn-export {
-    background: var(--teal); border: none; border-radius: 8px;
-    padding: 9px 18px;
-    font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 700;
-    letter-spacing: 0.03em;
-    color: #fff; cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
-    display: flex; align-items: center; gap: 6px;
-  }
+  .btn-export { background: var(--teal); border: none; border-radius: 8px; padding: 9px 18px; font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.03em; color: #fff; cursor: pointer; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; gap: 6px; }
   .btn-export:hover { background: var(--gold); transform: translateY(-1px); }
 
-  /* Section dividers */
-  .section-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--teal);
-    display: flex; align-items: center; gap: 10px;
-    margin: 28px 0 14px;
-  }
+  .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); display: flex; align-items: center; gap: 10px; margin: 28px 0 14px; }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--teal-pale); }
 
   /* ── KPI CARDS ── */
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin-bottom: 8px;
-  }
-  .kpi-card {
-    background: var(--white);
-    border-radius: 12px;
-    padding: 20px 18px 18px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--line);
-    border-top: 3px solid var(--teal);
-    transition: transform 0.15s, box-shadow 0.15s;
-    position: relative; overflow: hidden;
-    min-height: 100px;
-    display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 8px;
-  }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 8px; }
+  .kpi-card { background: var(--white); border-radius: 12px; padding: 20px 18px 18px; box-shadow: var(--shadow); border: 1px solid var(--line); border-top: 3px solid var(--teal); transition: transform 0.15s, box-shadow 0.15s; position: relative; overflow: hidden; min-height: 100px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 8px; }
   .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-  .kpi-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--ink-muted); font-weight: 700;
-  }
-  .kpi-value {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 34px; font-weight: 800; line-height: 1;
-    color: var(--teal-dark);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
+  .kpi-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-muted); font-weight: 700; }
+  .kpi-value { font-family: 'Barlow Condensed', sans-serif; font-size: 34px; font-weight: 800; line-height: 1; color: var(--teal-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .kpi-sub { font-size: 12px; color: var(--ink-muted); font-weight: 500; }
   .kpi-card.alert { border-top-color: var(--red); }
   .kpi-card.alert .kpi-value { color: var(--red); }
   .kpi-card.warn { border-top-color: var(--gold); }
   .kpi-card.warn .kpi-value { color: var(--amber); }
   .kpi-card.ok { border-top-color: var(--green); }
-  .kpi-card.gold { border-top-color: var(--gold); }
-  .kpi-card.gold .kpi-value { color: var(--teal-dark); }
+  .kpi-card.purple { border-top-color: var(--purple); }
+  .kpi-card.purple .kpi-value { color: var(--purple); }
+  .kpi-card.orange { border-top-color: var(--orange); }
+  .kpi-card.orange .kpi-value { color: var(--orange); }
 
   /* ── TYPE CARDS ── */
   .type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-  .type-card {
-    border-radius: 12px; padding: 16px 14px;
-    box-shadow: var(--shadow); border: 1px solid transparent;
-    transition: transform 0.15s; cursor: pointer;
-  }
+  .type-card { border-radius: 12px; padding: 16px 14px; box-shadow: var(--shadow); border: 1px solid transparent; transition: transform 0.15s; cursor: pointer; }
   .type-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
   .type-card.adv-disc { background: var(--gold-pale); border-color: var(--gold-light); }
   .type-card.adv-verb { background: var(--teal-muted); border-color: var(--teal-pale); }
   .type-card.susp { background: var(--red-light); border-color: #f5a79d; }
-
   .type-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .type-card-name { font-weight: 700; font-size: 14px; letter-spacing: 0.01em; font-family: 'Barlow', sans-serif; }
-  .type-badge {
-    font-size: 11px; font-weight: 800; letter-spacing: 0.07em;
-    border-radius: 999px; padding: 3px 10px; color: #fff;
-    font-family: 'Barlow Condensed', sans-serif;
-  }
+  .type-badge { font-size: 11px; font-weight: 800; letter-spacing: 0.07em; border-radius: 999px; padding: 3px 10px; color: #fff; font-family: 'Barlow Condensed', sans-serif; }
   .adv-disc .type-badge { background: var(--gold); }
   .adv-verb .type-badge { background: var(--teal); }
   .susp .type-badge { background: var(--red); }
-  .type-count {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 48px; font-weight: 800; line-height: 1;
-  }
+  .type-count { font-family: 'Barlow Condensed', sans-serif; font-size: 48px; font-weight: 800; line-height: 1; }
   .adv-disc .type-count { color: var(--gold-dark); }
   .adv-verb .type-count { color: var(--teal); }
   .susp .type-count { color: var(--red); }
@@ -389,24 +154,13 @@
 
   /* ── LAYOUT ── */
   .col-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 16px; }
-  @media (max-width: 860px) { .col-grid { grid-template-columns: 1fr; } }
+  .col-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 1100px) { .col-grid-3 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 860px) { .col-grid { grid-template-columns: 1fr; } .col-grid-3 { grid-template-columns: 1fr; } }
 
   /* ── PANEL ── */
-  .panel {
-    background: var(--white);
-    border-radius: 12px;
-    padding: 24px 22px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--line);
-  }
-  .panel-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 17px; font-weight: 700;
-    letter-spacing: 0.03em;
-    color: var(--teal-dark);
-    margin-bottom: 12px;
-    text-transform: uppercase;
-  }
+  .panel { background: var(--white); border-radius: 12px; padding: 24px 22px; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  .panel-title { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0.03em; color: var(--teal-dark); margin-bottom: 12px; text-transform: uppercase; }
 
   /* ── BAR CHART ── */
   .bar-list { display: flex; flex-direction: column; gap: 11px; }
@@ -416,22 +170,14 @@
   .bar-fill { height: 100%; border-radius: 999px; transition: width 0.8s cubic-bezier(.16,1,.3,1); }
   .bar-val { text-align: right; font-weight: 700; font-size: 14px; color: var(--teal-dark); font-family: 'Barlow Condensed', sans-serif; }
 
+  /* ── MOTIVO BARS (wider label) ── */
+  .motivo-bar-row { display: grid; grid-template-columns: 220px 1fr 44px 60px; gap: 12px; align-items: center; font-size: 13px; }
+
   /* ── TABLE ── */
   .tbl-wrap { overflow-x: auto; }
   table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  table.data-table th {
-    background: var(--teal-dark);
-    color: rgba(255,255,255,0.85);
-    padding: 9px 12px; text-align: left;
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
-    font-weight: 700; border-bottom: 2px solid var(--gold);
-    white-space: nowrap;
-    font-family: 'Barlow Condensed', sans-serif;
-  }
-  table.data-table td {
-    padding: 10px 12px; border-bottom: 1px solid var(--line);
-    color: var(--ink-soft); vertical-align: top;
-  }
+  table.data-table th { background: var(--teal-dark); color: rgba(255,255,255,0.85); padding: 9px 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; border-bottom: 2px solid var(--gold); white-space: nowrap; font-family: 'Barlow Condensed', sans-serif; }
+  table.data-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top; }
   table.data-table tr:last-child td { border-bottom: none; }
   table.data-table tr:hover td { background: var(--teal-muted); }
   .badge-sim { background: var(--red-light); color: var(--red); font-size: 11px; font-weight: 700; border-radius: 6px; padding: 2px 8px; font-family: 'Barlow Condensed', sans-serif; }
@@ -439,23 +185,8 @@
 
   /* ── INSIGHTS ── */
   .insight-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .insight-item {
-    display: flex; gap: 14px; align-items: flex-start;
-    padding: 14px 16px;
-    background: var(--teal-muted);
-    border-left: 3px solid var(--teal);
-    border-radius: 0 10px 10px 0;
-    font-size: 14px; line-height: 1.55; color: var(--ink-soft);
-  }
-  .insight-dot {
-    flex-shrink: 0; width: 26px; height: 26px;
-    border-radius: 50%;
-    background: var(--teal);
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 800; margin-top: 1px;
-    font-family: 'Barlow Condensed', sans-serif;
-  }
+  .insight-item { display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; background: var(--teal-muted); border-left: 3px solid var(--teal); border-radius: 0 10px 10px 0; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+  .insight-dot { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--teal); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; margin-top: 1px; font-family: 'Barlow Condensed', sans-serif; }
 
   /* ── MONTH CHART ── */
   .month-chart-wrap { width: 100%; overflow-x: auto; }
@@ -469,35 +200,53 @@
   .month-tbl table.data-table td.trend-eq { color: var(--ink-muted); }
   .full-panel { margin-bottom: 16px; }
 
-  /* ── PAGINATION ── */
-  .pagination { display:flex; align-items:center; gap:6px; margin-top:16px; justify-content:center; flex-wrap:wrap; }
-  .page-btn {
-    background: var(--paper-dark); border: 1px solid var(--line);
-    border-radius: 7px; padding: 6px 12px;
-    font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 700;
-    color: var(--ink-soft); cursor: pointer;
-    transition: background 0.15s, color 0.15s; min-width: 34px;
+  /* ── GERENCIA CARDS ── */
+  .gerencia-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .gerencia-card {
+    background: var(--white); border-radius: 12px; padding: 18px 16px;
+    box-shadow: var(--shadow); border: 1px solid var(--line);
+    border-top: 3px solid var(--purple);
+    transition: transform 0.15s, box-shadow 0.15s; cursor: pointer;
   }
+  .gerencia-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .gerencia-card-name { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 8px; font-family: 'Barlow', sans-serif; }
+  .gerencia-card-count { font-family: 'Barlow Condensed', sans-serif; font-size: 38px; font-weight: 800; color: var(--purple); line-height: 1; }
+  .gerencia-card-sub { font-size: 12px; color: var(--ink-muted); margin-top: 6px; }
+  .gerencia-card-tipos { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .gerencia-tipo-chip { font-size: 10px; font-weight: 700; border-radius: 6px; padding: 2px 7px; font-family: 'Barlow Condensed', sans-serif; }
+
+  /* ── MOTIVO CARDS ── */
+  .motivo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .motivo-card {
+    background: var(--white); border-radius: 12px; padding: 18px 16px;
+    box-shadow: var(--shadow); border: 1px solid var(--line);
+    border-top: 3px solid var(--orange);
+    transition: transform 0.15s, box-shadow 0.15s; cursor: pointer;
+  }
+  .motivo-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .motivo-card-name { font-weight: 700; font-size: 13px; color: var(--ink); margin-bottom: 8px; font-family: 'Barlow', sans-serif; }
+  .motivo-card-count { font-family: 'Barlow Condensed', sans-serif; font-size: 38px; font-weight: 800; color: var(--orange); line-height: 1; }
+  .motivo-card-sub { font-size: 12px; color: var(--ink-muted); margin-top: 6px; }
+  .motivo-bar-track { background: var(--paper-dark); height: 6px; border-radius: 999px; overflow: hidden; margin-top: 12px; }
+  .motivo-bar-fill { height: 100%; border-radius: 999px; background: var(--orange); transition: width 0.8s cubic-bezier(.16,1,.3,1); }
+
+  /* ── PAGINATION ── */
+  .pagination { display: flex; align-items: center; gap: 6px; margin-top: 16px; justify-content: center; flex-wrap: wrap; }
+  .page-btn { background: var(--paper-dark); border: 1px solid var(--line); border-radius: 7px; padding: 6px 12px; font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 700; color: var(--ink-soft); cursor: pointer; transition: background 0.15s, color 0.15s; min-width: 34px; }
   .page-btn:hover { background: var(--gold-pale); color: var(--gold-dark); }
   .page-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
   .page-btn:disabled { opacity: 0.35; cursor: default; }
   .page-info { font-size: 12px; color: var(--ink-muted); margin: 0 6px; }
 
-  .dash-footer {
-    margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--teal-pale);
-    font-size: 12px; color: var(--ink-muted); line-height: 1.7;
-  }
+  .dash-footer { margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--teal-pale); font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   .animate-in { animation: fadeUp 0.45s ease both; }
   .delay-1 { animation-delay: 0.08s; }
   .delay-2 { animation-delay: 0.16s; }
   .delay-3 { animation-delay: 0.24s; }
   .delay-4 { animation-delay: 0.32s; }
+  .delay-5 { animation-delay: 0.40s; }
 </style>
 </head>
 <body>
@@ -505,7 +254,7 @@
 <div class="topbar">
   <div class="topbar-brand">
     <div class="topbar-brand-dot"></div>
-    
+    RH · Medidas Disciplinares
   </div>
   <div class="topbar-meta" id="topbar-meta">Dashboard de Medidas Disciplinares</div>
 </div>
@@ -515,7 +264,6 @@
   <div class="upload-eyebrow">Gestão de Recursos Humanos</div>
   <h1 class="upload-title">Análise de <span>Medidas</span> Disciplinares</h1>
   <p class="upload-sub">Importe a planilha Excel para gerar os KPIs executivos automaticamente. Nenhum dado é enviado a servidores externos.</p>
-
   <div class="drop-zone" id="drop-zone">
     <input type="file" id="file-input" accept=".xlsx,.xls">
     <div class="drop-icon">
@@ -524,10 +272,8 @@
       </svg>
     </div>
     <div class="drop-label">Arraste ou clique para importar</div>
-    <div class="drop-hint">medidas_disciplinares_limpo.xlsx</div>
-    <div class="drop-formats">
-      <span>.XLSX</span><span>.XLS</span>
-    </div>
+    <div class="drop-hint">Medidas_2025_atual.xlsx</div>
+    <div class="drop-formats"><span>.XLSX</span><span>.XLS</span></div>
   </div>
   <button class="demo-btn" id="demo-btn">Ver demonstração com dados de exemplo</button>
 </div>
@@ -556,7 +302,7 @@
   <div class="section-label">Indicadores Gerais</div>
   <div class="kpi-grid animate-in delay-1" id="kpi-grid"></div>
 
-  <div class="section-label animate-in delay-2">Distribuição por Tipo</div>
+  <div class="section-label animate-in delay-2">Distribuição por Tipo de Medida</div>
   <div class="type-grid animate-in delay-2" id="type-grid"></div>
 
   <div class="section-label animate-in delay-3">Insights Executivos</div>
@@ -564,8 +310,14 @@
     <ul class="insight-list" id="insight-list"></ul>
   </div>
 
-  <div class="section-label animate-in delay-4">Evolução Mensal</div>
-  <div class="panel full-panel animate-in delay-4">
+  <div class="section-label animate-in delay-4">Motivo das Medidas</div>
+  <div class="motivo-grid animate-in delay-4" id="motivo-grid"></div>
+
+  <div class="section-label animate-in delay-4" style="margin-top:28px;">Gerências</div>
+  <div class="gerencia-grid animate-in delay-4" id="gerencia-grid"></div>
+
+  <div class="section-label animate-in delay-5">Evolução Mensal</div>
+  <div class="panel full-panel animate-in delay-5">
     <div class="panel-title">Medidas por Mês · Distribuição por Tipo</div>
     <div class="month-chart-wrap" style="margin-top:24px;">
       <svg id="month-svg" class="month-svg" viewBox="0 0 900 260" preserveAspectRatio="xMidYMid meet"></svg>
@@ -590,7 +342,7 @@
   <div class="panel animate-in delay-4">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
       <div class="panel-title" style="margin-bottom:0;">Todos os Colaboradores</div>
-      <input id="colab-search" type="text" placeholder="🔍  Buscar por nome, matrícula, grupo ou classe…" style="border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--ink);background:#fff;outline:none;width:300px;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--line)'" oninput="colabSearch(this.value)">
+      <input id="colab-search" type="text" placeholder="🔍  Buscar por nome, matrícula, grupo, gerência ou motivo…" style="border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--ink);background:#fff;outline:none;width:340px;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--line)'" oninput="colabSearch(this.value)">
     </div>
     <div class="tbl-wrap" id="top-colab-table"></div>
     <div class="pagination" id="colab-pagination"></div>
@@ -598,7 +350,7 @@
 
   <!-- Modal departamento -->
   <div id="dep-overlay" style="display:none;position:fixed;inset:0;background:rgba(8,61,79,0.6);z-index:200;backdrop-filter:blur(3px);" onclick="closeDep(event)">
-    <div id="dep-modal" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);width:min(860px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
+    <div id="dep-modal" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);width:min(900px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
       <div style="padding:22px 26px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-shrink:0;">
         <div>
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px;">Colaboradores por Departamento</div>
@@ -616,7 +368,7 @@
 
   <!-- Modal classe -->
   <div id="classe-overlay" style="display:none;position:fixed;inset:0;background:rgba(8,61,79,0.6);z-index:200;backdrop-filter:blur(3px);" onclick="if(event.target===this)this.style.display='none'">
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);width:min(860px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);width:min(900px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
       <div style="padding:22px 26px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-shrink:0;">
         <div>
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px;">Colaboradores por Centro de Custo</div>
@@ -634,7 +386,7 @@
 
   <!-- Modal tipo -->
   <div id="tipo-overlay" style="display:none;position:fixed;inset:0;background:rgba(8,61,79,0.6);z-index:200;backdrop-filter:blur(3px);" onclick="closeTipo(event)">
-    <div id="tipo-modal" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);width:min(820px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
+    <div id="tipo-modal" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);width:min(860px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
       <div style="padding:22px 26px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-shrink:0;">
         <div>
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px;">Colaboradores por Tipo</div>
@@ -649,9 +401,45 @@
     </div>
   </div>
 
+  <!-- Modal motivo -->
+  <div id="motivo-overlay" style="display:none;position:fixed;inset:0;background:rgba(8,61,79,0.6);z-index:200;backdrop-filter:blur(3px);" onclick="if(event.target===this)this.style.display='none'">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--orange);width:min(920px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="padding:22px 26px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-shrink:0;">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:4px;">Detalhe por Motivo</div>
+          <div id="motivo-titulo" style="font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:var(--teal-dark);text-transform:uppercase;"></div>
+          <div id="motivo-subtitulo" style="font-size:13px;color:var(--ink-muted);margin-top:2px;"></div>
+        </div>
+        <button onclick="document.getElementById('motivo-overlay').style.display='none'" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:8px;width:34px;height:34px;font-size:16px;cursor:pointer;color:var(--ink-soft);flex-shrink:0;display:flex;align-items:center;justify-content:center;">✕</button>
+      </div>
+      <div id="motivo-summary" style="display:flex;gap:10px;flex-wrap:wrap;padding:14px 26px;border-bottom:1px solid var(--line);flex-shrink:0;background:var(--orange-light);"></div>
+      <div style="overflow-y:auto;padding:18px 26px 26px;">
+        <div class="tbl-wrap" id="motivo-table"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal gerência -->
+  <div id="gerencia-overlay" style="display:none;position:fixed;inset:0;background:rgba(8,61,79,0.6);z-index:200;backdrop-filter:blur(3px);" onclick="if(event.target===this)this.style.display='none'">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--purple);width:min(960px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="padding:22px 26px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-shrink:0;">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--purple);font-weight:700;margin-bottom:4px;">Detalhe por Gerência</div>
+          <div id="gerencia-titulo" style="font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:var(--teal-dark);text-transform:uppercase;"></div>
+          <div id="gerencia-subtitulo" style="font-size:13px;color:var(--ink-muted);margin-top:2px;"></div>
+        </div>
+        <button onclick="document.getElementById('gerencia-overlay').style.display='none'" style="background:var(--paper-dark);border:1px solid var(--line);border-radius:8px;width:34px;height:34px;font-size:16px;cursor:pointer;color:var(--ink-soft);flex-shrink:0;display:flex;align-items:center;justify-content:center;">✕</button>
+      </div>
+      <div id="gerencia-summary" style="display:flex;gap:10px;flex-wrap:wrap;padding:14px 26px;border-bottom:1px solid var(--line);flex-shrink:0;background:var(--purple-light);"></div>
+      <div style="overflow-y:auto;padding:18px 26px 26px;">
+        <div class="tbl-wrap" id="gerencia-table"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal histórico -->
   <div id="hist-overlay" style="display:none;position:fixed;inset:0;background:rgba(8,61,79,0.6);z-index:200;backdrop-filter:blur(3px);" onclick="closeHist(event)">
-    <div id="hist-modal" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);width:min(960px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
+    <div id="hist-modal" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:4px solid var(--gold);width:min(980px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
       <div style="padding:22px 26px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-shrink:0;">
         <div>
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px;">Histórico Disciplinar</div>
@@ -668,8 +456,9 @@
   </div>
 
   <div class="dash-footer">
-    <strong>Legenda:</strong> Tipo 002 = Advertência escrita · Tipo 003 = Advertência verbal · Tipo 004 = Suspensão.
-    A coluna <em>Sequencia</em> representa a ordem da medida quando presente. Neste dashboard a reincidência é calculada automaticamente: será marcada quando um colaborador receber uma segunda advertência (verbal ou escrita) dentro de 1 ano da primeira.
+    <strong>Legenda:</strong> Tipo 002 = Advertência escrita · Tipo 003 = Advertência verbal · Tipo 004 = Suspensão.<br>
+    A coluna <em>Motivo</em> indica a categoria da infração (ex: Conduta Inadequada, Falta Injustificada). A coluna <em>Gerência</em> indica o gestor responsável pela equipe.
+    A reincidência é calculada automaticamente: marcada quando um colaborador recebe uma segunda advertência dentro de 1 ano da primeira.
     Os dados são processados localmente no navegador — nenhuma informação é transmitida externamente.
   </div>
 </div>
@@ -678,42 +467,21 @@
 const TIPO_MAP = { 2: 'Advertência escrita', 3: 'Advertência verbal', 4: 'Suspensão' };
 const PESO_MAP = { 2: 2, 3: 1, 4: 4 };
 
-const CAT_RULES = [
-  ['Segurança operacional', [/seguran/,/acident/,/incidente/,/quase acidente/,/mina/,/tr[aâ]nsito/,/tr[aá]fego/,/placa de pare/,/equipamento/,/perfura/,/opera[cç][aã]o/,/munk/,/caminh[aã]o/,/risco/]],
-  ['Conduta e convivência',  [/conduta/,/conviv/,/higiene/,/respeito/,/alojamento/,/inadequad/,/comportament/]],
-  ['Assiduidade e jornada',  [/aus[eê]ncia/,/atras/,/falta/,/n[aã]o retornou/,/retornar/,/transporte/,/comparecimento/,/perda do transporte/]],
-  ['Procedimento e comunicação', [/procedimento/,/comunica/,/omitir/,/omiss[aã]o/,/plano/,/padr[aã]o/,/norma/,/regra/]],
-  ['Patrimônio e instalações', [/instala[cç][aã]o/,/patrim[oô]nio/,/quebrou/,/quebrando/,/danific/,/mesa/,/coluna de perfura/]],
+const MOTIVO_COLORS = [
+  '#C46A00','#0E5D73','#6B3FA0','#B83232','#1A6B40',
+  '#7A5F18','#1A7A96','#966A0A','#B8922A','#083D4F'
 ];
 
-const STOPWORDS = new Set(['colaborador','empregado','empresa','normas','internas','conforme','data','site','deve','mais','apos','após','ficando','esta','está','sendo','sobre','mesmo','todo','toda','devido','diante','ocorrido','houve','aplicavel','aplicável','parte','integrante','instalacoes','instalações','disponibilizadas','disponibilizado','que','para','com','uma','como','por','ser','sua','seu','suas','seus','pela','pelas','pelo','pelos','entre','sem','sobre','este','esta','estes','estas','foram','e','o','a','os','as','ao','da','de','do','dos','das','no','na','nos','nas','em','um','ou']);
+const TIPO_BADGE_STYLE_GLOBAL = {
+  'Advertência escrita': 'background:#FAF3DC;color:#7A5F18',
+  'Advertência verbal':  'background:#D6EBF0;color:#0E5D73',
+  'Suspensão':           'background:#FAE8E8;color:#B83232',
+};
+const TIPO_DOT_GLOBAL = { 'Advertência escrita':'#B8922A','Advertência verbal':'#0E5D73','Suspensão':'#B83232' };
 
 function normalizeText(s) {
   if (!s) return '';
   return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
-}
-
-function classifyCat(anotacao) {
-  const t = normalizeText(anotacao);
-  if (!t) return 'Não informado';
-  let best = 'Outros', bestScore = 0;
-  for (const [cat, pats] of CAT_RULES) {
-    const score = pats.reduce((n,p) => n + (p.test(t) ? 1 : 0), 0);
-    if (score > bestScore) { bestScore = score; best = cat; }
-  }
-  return best;
-}
-
-function wordFreq(rows, col, limit=15) {
-  const freq = {};
-  for (const row of rows) {
-    const t = normalizeText(row[col] || '');
-    const words = t.match(/[a-záàâãéèêíïóôõöúücç]{4,}/g) || [];
-    for (const w of words) {
-      if (!STOPWORDS.has(w)) freq[w] = (freq[w] || 0) + 1;
-    }
-  }
-  return Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,limit).map(([w,f])=>({w,f}));
 }
 
 function formatDate(d) {
@@ -762,6 +530,8 @@ function buildKPIs(raw) {
     Tipo:       Number(pickField(r, 'Tipo') || 0),
     Matricula:  pickField(r, 'Matricula', 'Matrícula'),
     Anotacoes:  String(pickField(r, 'Anotacoes', 'Anotações', 'Observacoes', 'Observações') || ''),
+    Gerencia:   String(pickField(r, 'Gerencia', 'Gerência', 'Gerente') || 'Não informado').trim(),
+    Motivo:     String(pickField(r, 'Tipo.1', 'Motivo', 'Motivo da Advertencia', 'Motivo da Advertência') || 'Não informado').trim(),
     DataObj:    r.DataObj || null,
     TipoDesc:   r.TipoDesc || null,
     Peso:       r.Peso != null ? r.Peso : null,
@@ -778,14 +548,12 @@ function buildKPIs(raw) {
     }
     if (!r.AnoMes) r.AnoMes = r.DataObj ? `${r.DataObj.getFullYear()}-${String(r.DataObj.getMonth()+1).padStart(2,'0')}` : 'N/A';
     if (r.Reincidente == null) r.Reincidente = null;
-    if (!r.Categoria) r.Categoria = classifyCat(r.Anotacoes);
   });
 
-  // Compute reincidência automatically: mark as reincidente when a collaborator
-  // receives a second advert (verbal or written) within 1 year of a prior advert.
+  // Reincidência automática
   rows.sort((a,b)=> (a.DataObj||0) - (b.DataObj||0));
   const oneYearMs = 365 * 24 * 60 * 60 * 1000;
-  const advMap = {}; // key -> array of advert timestamps
+  const advMap = {};
   rows.forEach(r => {
     const key = r.Matricula || r.Funcionario || '__unknown__';
     const tipoDesc = String(r.TipoDesc || '').toLowerCase();
@@ -838,32 +606,60 @@ function buildKPIs(raw) {
   rows.forEach(r=>{ porClasse[r.Classe]=(porClasse[r.Classe]||0)+1; });
   const porClasseArr = Object.entries(porClasse).map(([k,v])=>({classe:k,qtd:v,pct:pct(v,total)})).sort((a,b)=>b.qtd-a.qtd);
 
+  // Gerência
+  const porGerencia = {};
+  rows.forEach(r=>{
+    const g = r.Gerencia;
+    if (!porGerencia[g]) porGerencia[g] = { gerencia:g, qtd:0, tiposCont:{}, motivoCont:{}, colabs:new Set() };
+    porGerencia[g].qtd++;
+    porGerencia[g].tiposCont[r.TipoDesc] = (porGerencia[g].tiposCont[r.TipoDesc]||0)+1;
+    porGerencia[g].motivoCont[r.Motivo] = (porGerencia[g].motivoCont[r.Motivo]||0)+1;
+    porGerencia[g].colabs.add(r.Funcionario);
+  });
+  const porGerenciaArr = Object.values(porGerencia).map(g=>({...g, colabs: g.colabs.size})).sort((a,b)=>b.qtd-a.qtd);
+
+  // Motivo
+  const porMotivo = {};
+  rows.forEach(r=>{
+    const m = r.Motivo;
+    if (!porMotivo[m]) porMotivo[m] = { motivo:m, qtd:0, tiposCont:{}, gerenciaCont:{}, colabs:new Set() };
+    porMotivo[m].qtd++;
+    porMotivo[m].tiposCont[r.TipoDesc] = (porMotivo[m].tiposCont[r.TipoDesc]||0)+1;
+    porMotivo[m].gerenciaCont[r.Gerencia] = (porMotivo[m].gerenciaCont[r.Gerencia]||0)+1;
+    porMotivo[m].colabs.add(r.Funcionario);
+  });
+  const porMotivoArr = Object.values(porMotivo).map(m=>({...m, colabs: m.colabs.size})).sort((a,b)=>b.qtd-a.qtd);
+
   const colab = {};
   rows.forEach(r=>{
     const k = r.Funcionario;
-    if (!colab[k]) colab[k] = { nome:k, mat:r.Matricula, dep:r.Grupo, classe:r.Classe, qtd:0, maxPeso:0, piorTipo:'—', ultima:null, reincidente:false, tiposCont:{} };
+    if (!colab[k]) colab[k] = { nome:k, mat:r.Matricula, dep:r.Grupo, classe:r.Classe, gerencia:r.Gerencia, qtd:0, maxPeso:0, piorTipo:'—', ultima:null, reincidente:false, tiposCont:{}, motivoCont:{} };
     colab[k].qtd++;
     colab[k].tiposCont[r.TipoDesc] = (colab[k].tiposCont[r.TipoDesc] || 0) + 1;
+    colab[k].motivoCont[r.Motivo] = (colab[k].motivoCont[r.Motivo] || 0) + 1;
     if (r.Peso > colab[k].maxPeso) { colab[k].maxPeso = r.Peso; colab[k].piorTipo = r.TipoDesc; }
     if (!colab[k].ultima || (r.DataObj && r.DataObj > colab[k].ultima)) colab[k].ultima = r.DataObj;
     if (r.Reincidente) colab[k].reincidente = true;
   });
   const topColab = Object.values(colab).sort((a,b)=>b.maxPeso-a.maxPeso||b.qtd-a.qtd);
 
-  const palavras = wordFreq(rows, 'Anotacoes');
+  // Motivo dominante
+  const motivoDominante = porMotivoArr[0]?.motivo || '—';
+  const gerenciaDominante = porGerenciaArr[0]?.gerencia || '—';
 
   const insights = [];
   if (porTipoArr.length) insights.push(`<strong>${porTipoArr[0].tipo}</strong> representa <strong>${porTipoArr[0].pct}</strong> das medidas, sinalizando o perfil predominante de atuação disciplinar.`);
+  if (porMotivoArr.length) insights.push(`O motivo mais frequente é <strong>${motivoDominante}</strong>, com <strong>${porMotivoArr[0].qtd}</strong> ocorrência(s) — <strong>${pct(porMotivoArr[0].qtd,total)}</strong> do total.`);
+  if (porGerenciaArr.length) insights.push(`A gerência com mais medidas é <strong>${gerenciaDominante}</strong>, responsável por <strong>${porGerenciaArr[0].qtd}</strong> registro(s) — <strong>${pct(porGerenciaArr[0].qtd,total)}</strong> do volume geral.`);
   if (porMesArr.length) {
     const pico = [...porMesArr].sort((a,b)=>b.qtd-a.qtd)[0];
     insights.push(`O mês com maior volume foi <strong>${pico.label}</strong>, com <strong>${pico.qtd}</strong> registro(s).`);
   }
-  if (reincidencias > 0) insights.push(`Há <strong>${reincidencias}</strong> medida(s) marcadas como reincidência, equivalente a <strong>${pct(reincidencias,total)}</strong> do total — requer atenção em reincidência.`);
-  else insights.push('Não há medidas marcadas como reincidência na base atual — baixa repetição formal de casos.');
-  if (porDepArr.length) insights.push(`O departamento com mais ocorrências é <strong>${porDepArr[0].dep}</strong>, com <strong>${porDepArr[0].qtd}</strong> medida(s) — equivalente a <strong>${porDepArr[0].pct}</strong> do total.`);
-  if (porClasseArr.length) insights.push(`O centro de custo mais frequente é <strong>${porClasseArr[0].classe}</strong>, com <strong>${porClasseArr[0].qtd}</strong> medida(s) — <strong>${porClasseArr[0].pct}</strong> do total.`);
+  if (reincidencias > 0) insights.push(`Há <strong>${reincidencias}</strong> medida(s) marcadas como reincidência — equivalente a <strong>${pct(reincidencias,total)}</strong> do total.`);
+  else insights.push('Não há medidas marcadas como reincidência na base atual.');
+  if (porDepArr.length) insights.push(`O departamento com mais ocorrências é <strong>${porDepArr[0].dep}</strong>, com <strong>${porDepArr[0].qtd}</strong> medida(s) — <strong>${porDepArr[0].pct}</strong> do total.`);
 
-  return { total, colaboradores, reincidencias, empresa, inicio, fim, meses:porMesArr.length, porTipoArr, porMesArr, porDepArr, porClasseArr, topColab, palavras, insights, mesTypeSplit, rows };
+  return { total, colaboradores, reincidencias, empresa, inicio, fim, meses:porMesArr.length, porTipoArr, porMesArr, porDepArr, porClasseArr, porGerenciaArr, porMotivoArr, topColab, insights, mesTypeSplit, rows };
 }
 
 let _kpis = null;
@@ -914,29 +710,35 @@ function render(kpis, resetYearState) {
   document.getElementById('topbar-meta').textContent = kpis.empresa;
 
   const depDom = kpis.porDepArr?.[0] || {};
+  const gerDom = kpis.porGerenciaArr?.[0] || {};
+  const motDom = kpis.porMotivoArr?.[0] || {};
+
   const kpiCards = [
     { label:'Total de Medidas',          value: kpis.total,         sub:`${kpis.meses} mês(es) analisado(s)`, cls:'' },
-    { label:'Colaboradores Impactados',  value: kpis.colaboradores, sub:'matrículas únicas',                   cls:'' },
-    { label:'Reincidências',      value: kpis.reincidencias, sub:`${(kpis.reincidencias/kpis.total*100).toFixed(1)}% do total`, cls: kpis.reincidencias>0?'warn':'ok' },
-    { label:'Depto. com Mais Medidas',   value: depDom.dep||'—',    sub:`${depDom.pct||''} do total · ${depDom.qtd||0} ocorrências`, cls:'alert', isText:true },
+    { label:'Colaboradores Impactados',  value: kpis.colaboradores, sub:'matrículas únicas', cls:'' },
+    { label:'Reincidências',             value: kpis.reincidencias, sub:`${(kpis.reincidencias/kpis.total*100).toFixed(1)}% do total`, cls: kpis.reincidencias>0?'warn':'ok' },
+    { label:'Depto. com Mais Medidas',   value: depDom.dep||'—',    sub:`${depDom.pct||''} · ${depDom.qtd||0} ocorrências`, cls:'alert', isText:true },
+    { label:'Gerência com Mais Medidas', value: gerDom.gerencia||'—', sub:`${pct(gerDom.qtd||0,kpis.total)} · ${gerDom.qtd||0} ocorrências`, cls:'purple', isText:true },
+    { label:'Motivo Predominante',       value: motDom.motivo||'—',  sub:`${pct(motDom.qtd||0,kpis.total)} · ${motDom.qtd||0} ocorrências`, cls:'orange', isText:true },
   ];
+
   document.getElementById('kpi-grid').innerHTML = kpiCards.map(c=>`
     <div class="kpi-card ${c.cls}">
       <div class="kpi-label">${c.label}</div>
-      <div class="kpi-value" style="${c.isText?'font-size:22px;line-height:1.2;':''}">${c.value}</div>
+      <div class="kpi-value" style="${c.isText?'font-size:20px;line-height:1.2;':''}">${c.value}</div>
       <div class="kpi-sub">${c.sub}</div>
     </div>`).join('');
 
+  // Type cards
   const TYPE_CLS = { 'Advertência escrita':'adv-disc','Advertência verbal':'adv-verb','Suspensão':'susp' };
-  const typeHTML = kpis.porTipoArr.map(t=>{
+  document.getElementById('type-grid').innerHTML = kpis.porTipoArr.map(t=>{
     const cls = TYPE_CLS[t.tipo] || 'adv-disc';
     const tipoEsc = t.tipo.replace(/'/g,"\\'");
-    return `
-    <div class="type-card ${cls}" onclick="openTipo('${tipoEsc}')">
+    return `<div class="type-card ${cls}" onclick="openTipo('${tipoEsc}')">
       <div class="type-card-header">
         <div class="type-card-name">${t.tipo}</div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-size:11px;color:var(--ink-muted);opacity:0.7;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.05em;">VER DETALHES ↗</span>
+          <span style="font-size:11px;color:var(--ink-muted);opacity:0.7;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.05em;">VER ↗</span>
           <div class="type-badge">${t.pct}</div>
         </div>
       </div>
@@ -946,24 +748,58 @@ function render(kpis, resetYearState) {
       </div>
     </div>`;
   }).join('');
-  document.getElementById('type-grid').innerHTML = typeHTML;
 
+  // Insights
   document.getElementById('insight-list').innerHTML = kpis.insights.map((ins,i)=>`
     <li class="insight-item">
       <div class="insight-dot">${i+1}</div>
       <div>${ins}</div>
     </li>`).join('');
 
-  // Cores brandadas para o gráfico
+  // ── MOTIVO CARDS ──
+  const maxMotivo = Math.max(...kpis.porMotivoArr.map(m=>m.qtd), 1);
+  document.getElementById('motivo-grid').innerHTML = kpis.porMotivoArr.map((m, i)=>{
+    const color = MOTIVO_COLORS[i % MOTIVO_COLORS.length];
+    const mEsc = m.motivo.replace(/'/g,"\\'");
+    const tiposChips = Object.entries(m.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
+      const st = TIPO_BADGE_STYLE_GLOBAL[t]||'background:var(--paper-dark);color:var(--ink-soft)';
+      return `<span class="gerencia-tipo-chip" style="${st};">${n}× ${t.replace('Advertência ','Adv. ')}</span>`;
+    }).join('');
+    return `<div class="motivo-card" style="border-top-color:${color};" onclick="openMotivo('${mEsc}')">
+      <div class="motivo-card-name">${m.motivo} <span style="font-size:10px;color:var(--ink-muted);">↗</span></div>
+      <div class="motivo-card-count" style="color:${color};">${m.qtd}</div>
+      <div class="motivo-card-sub">${m.colabs} colaborador(es) · ${pct(m.qtd, kpis.total)}</div>
+      <div class="motivo-bar-track"><div class="motivo-bar-fill" style="width:${(m.qtd/maxMotivo*100).toFixed(1)}%;background:${color};"></div></div>
+      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px;">${tiposChips}</div>
+    </div>`;
+  }).join('');
+
+  // ── GERÊNCIA CARDS ──
+  const GERENCIA_COLORS = ['#6B3FA0','#0E5D73','#C46A00','#B83232','#1A6B40','#7A5F18'];
+  document.getElementById('gerencia-grid').innerHTML = kpis.porGerenciaArr.map((g, i)=>{
+    const color = GERENCIA_COLORS[i % GERENCIA_COLORS.length];
+    const gEsc = g.gerencia.replace(/'/g,"\\'");
+    const tiposChips = Object.entries(g.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
+      const st = TIPO_BADGE_STYLE_GLOBAL[t]||'background:var(--paper-dark);color:var(--ink-soft)';
+      return `<span class="gerencia-tipo-chip" style="${st};">${n}× ${t.replace('Advertência ','Adv. ')}</span>`;
+    }).join('');
+    return `<div class="gerencia-card" style="border-top-color:${color};" onclick="openGerencia('${gEsc}')">
+      <div class="gerencia-card-name">${g.gerencia} <span style="font-size:10px;color:var(--ink-muted);">↗</span></div>
+      <div class="gerencia-card-count" style="color:${color};">${g.qtd}</div>
+      <div class="gerencia-card-sub">${g.colabs} colaborador(es) · ${pct(g.qtd, kpis.total)}</div>
+      <div class="gerencia-card-tipos">${tiposChips}</div>
+    </div>`;
+  }).join('');
+
+  // ── MONTH CHART ──
   const TIPO_COLORS_CHART = {
     'Advertência escrita': '#B8922A',
     'Advertência verbal':  '#0E5D73',
     'Suspensão':           '#B83232',
     'Tipo não mapeado':    '#6B8A96',
   };
-
-  const mesTypeSplit = kpis.mesTypeSplit || {};
   const tiposOrdem = ['Advertência escrita', 'Advertência verbal', 'Suspensão', 'Tipo não mapeado'];
+  const mesTypeSplit = kpis.mesTypeSplit || {};
   const meses = kpis.porMesArr;
   const W = 900, H = 260, PAD = { t: 20, r: 20, b: 50, l: 44 };
   const chartW = W - PAD.l - PAD.r;
@@ -973,14 +809,12 @@ function render(kpis, resetYearState) {
   const barGap = chartW / Math.max(meses.length, 1);
 
   let svgContent = '';
-  const gridCount = 4;
-  for (let i = 0; i <= gridCount; i++) {
-    const y = PAD.t + chartH - (i / gridCount) * chartH;
-    const val = Math.round((i / gridCount) * maxVal);
+  for (let i = 0; i <= 4; i++) {
+    const y = PAD.t + chartH - (i / 4) * chartH;
+    const val = Math.round((i / 4) * maxVal);
     svgContent += `<line x1="${PAD.l}" x2="${W - PAD.r}" y1="${y}" y2="${y}" stroke="#D6EBF0" stroke-width="1"/>`;
     svgContent += `<text x="${PAD.l - 8}" y="${y + 4}" font-size="10" fill="#6B8A96" text-anchor="end" font-family="Barlow,sans-serif">${val}</text>`;
   }
-
   const trendPoints = [];
   meses.forEach((m, i) => {
     const cx = PAD.l + i * barGap + barGap / 2;
@@ -1003,22 +837,16 @@ function render(kpis, resetYearState) {
       svgContent += `<rect x="${x}" y="${PAD.t + chartH - barH}" width="${barW}" height="${barH}" fill="#B8922A" rx="3" opacity="0.85"/>`;
     }
   });
-
   if (trendPoints.length > 1) {
     const pts = trendPoints.map(p => `${p.cx},${p.cy}`).join(' ');
     svgContent += `<polyline points="${pts}" fill="none" stroke="#083D4F" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.3"/>`;
-    trendPoints.forEach(p => {
-      svgContent += `<circle cx="${p.cx}" cy="${p.cy}" r="3.5" fill="#083D4F" opacity="0.45"/>`;
-    });
+    trendPoints.forEach(p => { svgContent += `<circle cx="${p.cx}" cy="${p.cy}" r="3.5" fill="#083D4F" opacity="0.45"/>`; });
   }
-
   document.getElementById('month-svg').innerHTML = svgContent;
-
   const legendTipos = tiposOrdem.filter(t => kpis.porTipoArr.some(pt => pt.tipo === t));
   document.getElementById('month-legend').innerHTML = legendTipos.map(t =>
     `<div class="month-legend-item"><div class="month-legend-dot" style="background:${TIPO_COLORS_CHART[t]}"></div>${t}</div>`
   ).join('');
-
   const tiposTabela = tiposOrdem.filter(t => kpis.porTipoArr.some(pt => pt.tipo === t));
   const thead = `<tr><th>Mês</th><th>Total</th>${tiposTabela.map(t=>`<th>${t.replace('Advertência','Adv.')}</th>`).join('')}<th>Variação</th></tr>`;
   const tbody = meses.map((m, i) => {
@@ -1035,13 +863,13 @@ function render(kpis, resetYearState) {
   }).join('');
   document.getElementById('month-tbl').innerHTML = `<div class="tbl-wrap"><table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table></div>`;
 
-  // Bar colors — teal/gold ramps
+  // ── DEP / CLASSE BARS ──
   const DEP_COLORS = ['#0E5D73','#B8922A','#1A7A96','#7A5F18','#0F4A5C','#C9A84C','#083D4F','#966A0A'];
   const maxDep = Math.max(...(kpis.porDepArr||[]).map(d=>d.qtd), 1);
   document.getElementById('dep-bars').innerHTML = (kpis.porDepArr||[]).map((d,i)=>{
     const depEsc = d.dep.replace(/'/g,"\\'");
     const color = DEP_COLORS[i%DEP_COLORS.length];
-    return `<div class="bar-row" style="grid-template-columns:200px 1fr 44px 60px;cursor:pointer;border-radius:6px;padding:4px 6px;margin:-4px -6px;transition:background 0.15s;" onclick="openDep('${depEsc}')" onmouseover="this.style.background='var(--teal-muted)'" onmouseout="this.style.background=''">
+    return `<div class="bar-row" style="cursor:pointer;border-radius:6px;padding:4px 6px;margin:-4px -6px;transition:background 0.15s;" onclick="openDep('${depEsc}')" onmouseover="this.style.background='var(--teal-muted)'" onmouseout="this.style.background=''">
       <div class="bar-label" title="${d.dep}" style="color:${color};">${d.dep} <span style="font-size:10px;color:var(--ink-muted);font-weight:400;">↗</span></div>
       <div class="bar-track"><div class="bar-fill" style="width:${(d.qtd/maxDep*100).toFixed(1)}%;background:${color};"></div></div>
       <div class="bar-val" style="color:${color};">${d.qtd}</div>
@@ -1049,12 +877,12 @@ function render(kpis, resetYearState) {
     </div>`;
   }).join('');
 
-  const CLASSE_COLORS = ['#1A7A96','#C9A84C','#0E5D73','#B8922A','#083D4F','#7A5F18','#0F4A5C','#966A0A','#1A7A96','#B8922A'];
+  const CLASSE_COLORS = ['#1A7A96','#C9A84C','#0E5D73','#B8922A','#083D4F','#7A5F18','#0F4A5C','#966A0A'];
   const maxClasse = Math.max(...(kpis.porClasseArr||[]).map(c=>c.qtd), 1);
   document.getElementById('classe-bars').innerHTML = (kpis.porClasseArr||[]).map((c,i)=>{
     const classeEsc = c.classe.replace(/'/g,"\\'");
     const color = CLASSE_COLORS[i%CLASSE_COLORS.length];
-    return `<div class="bar-row" style="grid-template-columns:200px 1fr 44px 60px;cursor:pointer;border-radius:6px;padding:4px 6px;margin:-4px -6px;transition:background 0.15s;" onclick="openClasse('${classeEsc}')" onmouseover="this.style.background='var(--teal-muted)'" onmouseout="this.style.background=''">
+    return `<div class="bar-row" style="cursor:pointer;border-radius:6px;padding:4px 6px;margin:-4px -6px;transition:background 0.15s;" onclick="openClasse('${classeEsc}')" onmouseover="this.style.background='var(--teal-muted)'" onmouseout="this.style.background=''">
       <div class="bar-label" title="${c.classe}" style="font-size:12px;color:${color};">${c.classe} <span style="font-size:10px;color:var(--ink-muted);font-weight:400;">↗</span></div>
       <div class="bar-track"><div class="bar-fill" style="width:${(c.qtd/maxClasse*100).toFixed(1)}%;background:${color};"></div></div>
       <div class="bar-val" style="color:${color};">${c.qtd}</div>
@@ -1062,15 +890,7 @@ function render(kpis, resetYearState) {
     </div>`;
   }).join('');
 
-  // Tabela colaboradores
-  const th = s=>`<th>${s}</th>`;
-  const TIPO_BADGE_STYLE = {
-    'Advertência escrita': 'background:#FAF3DC;color:#7A5F18',
-    'Advertência verbal':  'background:#D6EBF0;color:#0E5D73',
-    'Suspensão':           'background:#FAE8E8;color:#B83232',
-  };
-  const TIPO_DOT = { 'Advertência escrita':'#B8922A','Advertência verbal':'#0E5D73','Suspensão':'#B83232' };
-
+  // ── COLABORADORES TABLE ──
   const PAGE_SIZE = 10;
   let colabPage = 1;
   let colabFilter = '';
@@ -1079,7 +899,12 @@ function render(kpis, resetYearState) {
     if (!colabFilter) return kpis.topColab;
     const q = colabFilter.toLowerCase();
     return kpis.topColab.filter(c =>
-      c.nome.toLowerCase().includes(q)||String(c.mat||'').includes(q)||(c.dep||'').toLowerCase().includes(q)||(c.classe||'').toLowerCase().includes(q)
+      c.nome.toLowerCase().includes(q) ||
+      String(c.mat||'').includes(q) ||
+      (c.dep||'').toLowerCase().includes(q) ||
+      (c.classe||'').toLowerCase().includes(q) ||
+      (c.gerencia||'').toLowerCase().includes(q) ||
+      Object.keys(c.motivoCont||{}).some(m=>m.toLowerCase().includes(q))
     );
   }
 
@@ -1091,20 +916,36 @@ function render(kpis, resetYearState) {
     const slice = filtered.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE);
 
     const rows = slice.map(c=>{
-      const style = TIPO_BADGE_STYLE[c.piorTipo] || 'background:var(--paper-dark);color:var(--ink-soft)';
+      const style = TIPO_BADGE_STYLE_GLOBAL[c.piorTipo] || 'background:var(--paper-dark);color:var(--ink-soft)';
       const tipoBadge = `<span style="${style};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;font-family:'Barlow Condensed',sans-serif;">${c.piorTipo}</span>`;
       const tiposDetalhes = Object.entries(c.tiposCont||{}).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-        const dot = TIPO_DOT[t]||'#6B8A96';
+        const dot = TIPO_DOT_GLOBAL[t]||'#6B8A96';
         return `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:12px;white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0;display:inline-block;"></span><strong>${n}x</strong> ${t.replace('Advertência ','Adv. ')}</span>`;
       }).join('');
+      const motivos = Object.entries(c.motivoCont||{}).sort((a,b)=>b[1]-a[1]).map(([m])=>
+        `<span style="font-size:11px;background:var(--orange-light);color:var(--orange);font-weight:700;border-radius:5px;padding:1px 6px;font-family:'Barlow Condensed',sans-serif;">${m}</span>`
+      ).join(' ');
       const nomeEscaped = c.nome.replace(/'/g,"\\'");
       const btnHist = `<button onclick="openHist('${nomeEscaped}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 12px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋 Histórico</button>`;
-      return `<tr><td>${c.nome.length>30?c.nome.slice(0,30)+'…':c.nome}</td><td>${c.mat||'—'}</td><td style="font-size:12px;color:var(--ink-soft);">${c.dep||'—'}</td><td style="font-size:12px;color:var(--ink-muted);">${c.classe||'—'}</td><td><strong>${c.qtd}</strong></td><td><div style="display:flex;flex-wrap:wrap;gap:2px;">${tiposDetalhes}</div></td><td>${tipoBadge}</td><td>${formatDate(c.ultima)}</td><td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td><td>${btnHist}</td></tr>`;
+      return `<tr>
+        <td>${c.nome.length>28?c.nome.slice(0,28)+'…':c.nome}</td>
+        <td>${c.mat||'—'}</td>
+        <td style="font-size:12px;color:var(--ink-soft);">${c.dep||'—'}</td>
+        <td style="font-size:12px;color:var(--ink-muted);">${c.gerencia||'—'}</td>
+        <td><strong>${c.qtd}</strong></td>
+        <td><div style="display:flex;flex-wrap:wrap;gap:2px;">${tiposDetalhes}</div></td>
+        <td><div style="display:flex;flex-wrap:wrap;gap:3px;">${motivos}</div></td>
+        <td>${tipoBadge}</td>
+        <td>${formatDate(c.ultima)}</td>
+        <td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td>
+        <td>${btnHist}</td>
+      </tr>`;
     }).join('');
 
-    const emptyRow = `<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--ink-muted);">Nenhum colaborador encontrado.</td></tr>`;
+    const th = s=>`<th>${s}</th>`;
+    const emptyRow = `<tr><td colspan="11" style="text-align:center;padding:24px;color:var(--ink-muted);">Nenhum colaborador encontrado.</td></tr>`;
     document.getElementById('top-colab-table').innerHTML =
-      `<table class="data-table"><thead><tr>${[th('Colaborador'),th('Mat.'),th('Grupo'),th('Classe'),th('Total'),th('Qtd. por Tipo'),th('Tipo Mais Grave'),th('Última'),th('Reinc.'),th('')].join('')}</tr></thead><tbody>${rows||emptyRow}</tbody></table>`;
+      `<table class="data-table"><thead><tr>${[th('Colaborador'),th('Mat.'),th('Grupo'),th('Gerência'),th('Total'),th('Qtd. por Tipo'),th('Motivo(s)'),th('Tipo Mais Grave'),th('Última'),th('Reinc.'),th('')].join('')}</tr></thead><tbody>${rows||emptyRow}</tbody></table>`;
 
     const from = total ? (page-1)*PAGE_SIZE+1 : 0;
     const to = Math.min(page*PAGE_SIZE, total);
@@ -1123,7 +964,6 @@ function render(kpis, resetYearState) {
     colabPage = page;
     renderColabPage(page);
   };
-
   window.colabSearch = function(val) {
     colabFilter = val.trim();
     colabPage = 1;
@@ -1136,43 +976,38 @@ function render(kpis, resetYearState) {
   document.getElementById('dashboard-screen').style.display = 'block';
 }
 
-// ── MODAIS ───────────────────────────────────────────────────────────────────
-const TIPO_BADGE_STYLE_GLOBAL = {
-  'Advertência escrita': 'background:#FAF3DC;color:#7A5F18',
-  'Advertência verbal':  'background:#D6EBF0;color:#0E5D73',
-  'Suspensão':           'background:#FAE8E8;color:#B83232',
-};
-const TIPO_DOT_GLOBAL = { 'Advertência escrita':'#B8922A','Advertência verbal':'#0E5D73','Suspensão':'#B83232' };
+// ── MODAIS ────────────────────────────────────────────────────────────────────
 
 function openDep(dep) {
   const kpis = _kpis; if (!kpis) return;
   const registros = kpis.rows.filter(r=>r.Grupo===dep).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
   const colabMap = {};
   registros.forEach(r=>{
-    if (!colabMap[r.Funcionario]) colabMap[r.Funcionario]={nome:r.Funcionario,mat:r.Matricula,qtd:0,tiposCont:{},piorTipo:'—',maxPeso:0,ultima:null,reincidente:false};
+    if (!colabMap[r.Funcionario]) colabMap[r.Funcionario]={nome:r.Funcionario,mat:r.Matricula,gerencia:r.Gerencia,qtd:0,tiposCont:{},motivoCont:{},piorTipo:'—',maxPeso:0,ultima:null,reincidente:false};
     colabMap[r.Funcionario].qtd++;
     colabMap[r.Funcionario].tiposCont[r.TipoDesc]=(colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
+    colabMap[r.Funcionario].motivoCont[r.Motivo]=(colabMap[r.Funcionario].motivoCont[r.Motivo]||0)+1;
     if((PESO_MAP[r.Tipo]||0)>colabMap[r.Funcionario].maxPeso){colabMap[r.Funcionario].maxPeso=PESO_MAP[r.Tipo]||0;colabMap[r.Funcionario].piorTipo=r.TipoDesc;}
     if(!colabMap[r.Funcionario].ultima||(r.DataObj&&r.DataObj>colabMap[r.Funcionario].ultima))colabMap[r.Funcionario].ultima=r.DataObj;
     if(r.Reincidente)colabMap[r.Funcionario].reincidente=true;
   });
   const colabs=Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
   document.getElementById('dep-titulo').textContent=dep;
-  document.getElementById('dep-subtitulo').textContent=`${registros.length} ocorrência(s) · ${colabs.length} colaborador(es) único(s)`;
-  const tiposCont={};
-  registros.forEach(r=>{tiposCont[r.TipoDesc]=(tiposCont[r.TipoDesc]||0)+1;});
-  document.getElementById('dep-summary').innerHTML=Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-    const st=TIPO_BADGE_STYLE_GLOBAL[t]||'background:var(--paper-dark);color:var(--ink-soft)';
-    return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${t}</span>`;
-  }).join('');
-  const thead=`<tr><th>Colaborador</th><th>Mat.</th><th>Total</th><th>Qtd. por Tipo</th><th>Tipo Mais Grave</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
+  document.getElementById('dep-subtitulo').textContent=`${registros.length} ocorrência(s) · ${colabs.length} colaborador(es)`;
+  const tiposCont={};const motivoCont={};
+  registros.forEach(r=>{tiposCont[r.TipoDesc]=(tiposCont[r.TipoDesc]||0)+1;motivoCont[r.Motivo]=(motivoCont[r.Motivo]||0)+1;});
+  const tiposChips=Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const st=TIPO_BADGE_STYLE_GLOBAL[t]||'background:var(--paper-dark);color:var(--ink-soft)';return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${t}</span>`;}).join('');
+  const motivoChips=Object.entries(motivoCont).sort((a,b)=>b[1]-a[1]).map(([m,n])=>`<span style="background:var(--orange-light);color:var(--orange);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${m}</span>`).join('');
+  document.getElementById('dep-summary').innerHTML=tiposChips+motivoChips;
+  const thead=`<tr><th>Colaborador</th><th>Mat.</th><th>Gerência</th><th>Total</th><th>Tipos</th><th>Motivo(s)</th><th>Mais Grave</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
   const tbody=colabs.map(c=>{
     const st=TIPO_BADGE_STYLE_GLOBAL[c.piorTipo]||'background:var(--paper-dark);color:var(--ink-soft)';
     const tipoBadge=`<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;font-family:'Barlow Condensed',sans-serif;">${c.piorTipo}</span>`;
-    const tiposDetalhes=Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const dot=TIPO_DOT_GLOBAL[t]||'#6B8A96';return `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:12px;white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0;display:inline-block;"></span><strong>${n}x</strong> ${t.replace('Advertência ','Adv. ')}</span>`;}).join('');
+    const tiposD=Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const dot=TIPO_DOT_GLOBAL[t]||'#6B8A96';return `<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;white-space:nowrap;"><span style="width:7px;height:7px;border-radius:50%;background:${dot};display:inline-block;"></span>${n}x</span>`;}).join(' ');
+    const motivoD=Object.keys(c.motivoCont).map(m=>`<span style="font-size:10px;background:var(--orange-light);color:var(--orange);font-weight:700;border-radius:5px;padding:1px 6px;font-family:'Barlow Condensed',sans-serif;">${m}</span>`).join(' ');
     const nomeEsc=c.nome.replace(/'/g,"\\'");
-    const btnHist=`<button onclick="document.getElementById('dep-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 12px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋 Histórico</button>`;
-    return `<tr><td style="font-weight:600;">${c.nome.length>30?c.nome.slice(0,30)+'…':c.nome}</td><td>${c.mat||'—'}</td><td><strong>${c.qtd}</strong></td><td><div style="display:flex;flex-wrap:wrap;gap:2px;">${tiposDetalhes}</div></td><td>${tipoBadge}</td><td style="white-space:nowrap;">${formatDate(c.ultima)}</td><td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td><td>${btnHist}</td></tr>`;
+    const btnHist=`<button onclick="document.getElementById('dep-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 10px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋</button>`;
+    return `<tr><td style="font-weight:600;">${c.nome.length>26?c.nome.slice(0,26)+'…':c.nome}</td><td>${c.mat||'—'}</td><td style="font-size:12px;color:var(--ink-muted);">${c.gerencia||'—'}</td><td><strong>${c.qtd}</strong></td><td>${tiposD}</td><td>${motivoD}</td><td>${tipoBadge}</td><td style="white-space:nowrap;">${formatDate(c.ultima)}</td><td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td><td>${btnHist}</td></tr>`;
   }).join('');
   document.getElementById('dep-table').innerHTML=`<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
   document.getElementById('dep-overlay').style.display='block';
@@ -1184,25 +1019,29 @@ function openClasse(classe) {
   const registros=kpis.rows.filter(r=>r.Classe===classe).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
   const colabMap={};
   registros.forEach(r=>{
-    if(!colabMap[r.Funcionario])colabMap[r.Funcionario]={nome:r.Funcionario,mat:r.Matricula,dep:r.Grupo,qtd:0,tiposCont:{},piorTipo:'—',maxPeso:0,ultima:null,reincidente:false};
+    if(!colabMap[r.Funcionario])colabMap[r.Funcionario]={nome:r.Funcionario,mat:r.Matricula,dep:r.Grupo,gerencia:r.Gerencia,qtd:0,tiposCont:{},motivoCont:{},piorTipo:'—',maxPeso:0,ultima:null,reincidente:false};
     colabMap[r.Funcionario].qtd++;colabMap[r.Funcionario].tiposCont[r.TipoDesc]=(colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
+    colabMap[r.Funcionario].motivoCont[r.Motivo]=(colabMap[r.Funcionario].motivoCont[r.Motivo]||0)+1;
     if((PESO_MAP[r.Tipo]||0)>colabMap[r.Funcionario].maxPeso){colabMap[r.Funcionario].maxPeso=PESO_MAP[r.Tipo]||0;colabMap[r.Funcionario].piorTipo=r.TipoDesc;}
     if(!colabMap[r.Funcionario].ultima||(r.DataObj&&r.DataObj>colabMap[r.Funcionario].ultima))colabMap[r.Funcionario].ultima=r.DataObj;
     if(r.Reincidente)colabMap[r.Funcionario].reincidente=true;
   });
   const colabs=Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
   document.getElementById('classe-titulo').textContent=classe;
-  document.getElementById('classe-subtitulo').textContent=`${registros.length} ocorrência(s) · ${colabs.length} colaborador(es) único(s)`;
-  const tiposCont={};registros.forEach(r=>{tiposCont[r.TipoDesc]=(tiposCont[r.TipoDesc]||0)+1;});
-  document.getElementById('classe-summary').innerHTML=Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const st=TIPO_BADGE_STYLE_GLOBAL[t]||'background:var(--paper-dark);color:var(--ink-soft)';return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${t}</span>`;}).join('');
-  const thead=`<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Total</th><th>Qtd. por Tipo</th><th>Tipo Mais Grave</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
+  document.getElementById('classe-subtitulo').textContent=`${registros.length} ocorrência(s) · ${colabs.length} colaborador(es)`;
+  const tiposCont={};const motivoCont={};
+  registros.forEach(r=>{tiposCont[r.TipoDesc]=(tiposCont[r.TipoDesc]||0)+1;motivoCont[r.Motivo]=(motivoCont[r.Motivo]||0)+1;});
+  const chips=Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const st=TIPO_BADGE_STYLE_GLOBAL[t]||'';return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${t}</span>`;}).join('');
+  const motChips=Object.entries(motivoCont).sort((a,b)=>b[1]-a[1]).map(([m,n])=>`<span style="background:var(--orange-light);color:var(--orange);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${m}</span>`).join('');
+  document.getElementById('classe-summary').innerHTML=chips+motChips;
+  const thead=`<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Gerência</th><th>Total</th><th>Mais Grave</th><th>Motivo(s)</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
   const tbody=colabs.map(c=>{
-    const st=TIPO_BADGE_STYLE_GLOBAL[c.piorTipo]||'background:var(--paper-dark);color:var(--ink-soft)';
+    const st=TIPO_BADGE_STYLE_GLOBAL[c.piorTipo]||'';
     const tipoBadge=`<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;font-family:'Barlow Condensed',sans-serif;">${c.piorTipo}</span>`;
-    const tiposDetalhes=Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const dot=TIPO_DOT_GLOBAL[t]||'#6B8A96';return `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:12px;white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0;display:inline-block;"></span><strong>${n}x</strong> ${t.replace('Advertência ','Adv. ')}</span>`;}).join('');
+    const motivoD=Object.keys(c.motivoCont).map(m=>`<span style="font-size:10px;background:var(--orange-light);color:var(--orange);font-weight:700;border-radius:5px;padding:1px 6px;font-family:'Barlow Condensed',sans-serif;">${m}</span>`).join(' ');
     const nomeEsc=c.nome.replace(/'/g,"\\'");
-    const btnHist=`<button onclick="document.getElementById('classe-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 12px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋 Histórico</button>`;
-    return `<tr><td style="font-weight:600;">${c.nome.length>30?c.nome.slice(0,30)+'…':c.nome}</td><td>${c.mat||'—'}</td><td style="font-size:12px;color:var(--ink-muted);">${c.dep||'—'}</td><td><strong>${c.qtd}</strong></td><td><div style="display:flex;flex-wrap:wrap;gap:2px;">${tiposDetalhes}</div></td><td>${tipoBadge}</td><td style="white-space:nowrap;">${formatDate(c.ultima)}</td><td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td><td>${btnHist}</td></tr>`;
+    const btnHist=`<button onclick="document.getElementById('classe-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 10px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋</button>`;
+    return `<tr><td style="font-weight:600;">${c.nome.length>26?c.nome.slice(0,26)+'…':c.nome}</td><td>${c.mat||'—'}</td><td style="font-size:12px;">${c.dep||'—'}</td><td style="font-size:12px;color:var(--ink-muted);">${c.gerencia||'—'}</td><td><strong>${c.qtd}</strong></td><td>${tipoBadge}</td><td>${motivoD}</td><td style="white-space:nowrap;">${formatDate(c.ultima)}</td><td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td><td>${btnHist}</td></tr>`;
   }).join('');
   document.getElementById('classe-table').innerHTML=`<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
   document.getElementById('classe-overlay').style.display='block';
@@ -1214,55 +1053,114 @@ function openTipo(tipo) {
   const colabUnicos=new Set(registros.map(r=>r.Funcionario)).size;
   document.getElementById('tipo-titulo').textContent=tipo;
   document.getElementById('tipo-subtitulo').textContent=`${registros.length} ocorrência(s) · ${colabUnicos} colaborador(es)`;
-  const thead=`<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Data</th><th>Seq.</th><th>Anotação</th><th></th></tr>`;
+  const thead=`<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Gerência</th><th>Motivo</th><th>Data</th><th>Seq.</th><th>Anotação</th><th></th></tr>`;
   const tbody=registros.map(r=>{
     const anotFull=r.Anotacoes.replace(/\n/g,'<br>');
     const nomeEsc=r.Funcionario.replace(/'/g,"\\'");
-    const btnHist=`<button onclick="document.getElementById('tipo-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 12px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;white-space:nowrap;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋 Histórico</button>`;
-    return `<tr><td style="font-weight:600;white-space:nowrap;vertical-align:top;">${r.Funcionario.length>26?r.Funcionario.slice(0,26)+'…':r.Funcionario}</td><td style="white-space:nowrap;vertical-align:top;">${r.Matricula||'—'}</td><td style="white-space:nowrap;vertical-align:top;font-size:12px;color:var(--ink-muted);">${r.Grupo||'—'}</td><td style="white-space:nowrap;vertical-align:top;">${formatDate(r.DataObj)}</td><td style="text-align:center;vertical-align:top;">${r.Sequencia||1}</td><td style="font-size:13px;color:var(--ink-soft);line-height:1.65;min-width:300px;">${anotFull}</td><td style="vertical-align:top;">${btnHist}</td></tr>`;
+    const btnHist=`<button onclick="document.getElementById('tipo-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 10px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋</button>`;
+    return `<tr><td style="font-weight:600;white-space:nowrap;">${r.Funcionario.length>24?r.Funcionario.slice(0,24)+'…':r.Funcionario}</td><td>${r.Matricula||'—'}</td><td style="font-size:12px;">${r.Grupo||'—'}</td><td style="font-size:12px;color:var(--ink-muted);">${r.Gerencia||'—'}</td><td><span style="font-size:11px;background:var(--orange-light);color:var(--orange);font-weight:700;border-radius:5px;padding:2px 8px;font-family:'Barlow Condensed',sans-serif;">${r.Motivo||'—'}</span></td><td style="white-space:nowrap;">${formatDate(r.DataObj)}</td><td style="text-align:center;">${r.Sequencia||1}</td><td style="font-size:13px;color:var(--ink-soft);line-height:1.65;min-width:280px;">${anotFull}</td><td>${btnHist}</td></tr>`;
   }).join('');
   document.getElementById('tipo-table').innerHTML=`<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
   document.getElementById('tipo-overlay').style.display='block';
 }
 function closeTipo(e){if(e.target===document.getElementById('tipo-overlay'))document.getElementById('tipo-overlay').style.display='none';}
 
+function openMotivo(motivo) {
+  const kpis=_kpis; if(!kpis)return;
+  const registros=kpis.rows.filter(r=>r.Motivo===motivo).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
+  const colabUnicos=new Set(registros.map(r=>r.Funcionario)).size;
+  document.getElementById('motivo-titulo').textContent=motivo;
+  document.getElementById('motivo-subtitulo').textContent=`${registros.length} ocorrência(s) · ${colabUnicos} colaborador(es) · ${pct(registros.length,kpis.total)} do total`;
+  const tiposCont={};const gerCont={};
+  registros.forEach(r=>{tiposCont[r.TipoDesc]=(tiposCont[r.TipoDesc]||0)+1;gerCont[r.Gerencia]=(gerCont[r.Gerencia]||0)+1;});
+  const tiposChips=Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const st=TIPO_BADGE_STYLE_GLOBAL[t]||'';return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${t}</span>`;}).join('');
+  const gerChips=Object.entries(gerCont).sort((a,b)=>b[1]-a[1]).map(([g,n])=>`<span style="background:var(--purple-light);color:var(--purple);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${g}</span>`).join('');
+  document.getElementById('motivo-summary').innerHTML=tiposChips+gerChips;
+  const thead=`<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Gerência</th><th>Tipo</th><th>Data</th><th>Anotação</th><th></th></tr>`;
+  const tbody=registros.map(r=>{
+    const st=TIPO_BADGE_STYLE_GLOBAL[r.TipoDesc]||'';
+    const badge=`<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;font-family:'Barlow Condensed',sans-serif;">${r.TipoDesc}</span>`;
+    const nomeEsc=r.Funcionario.replace(/'/g,"\\'");
+    const btnHist=`<button onclick="document.getElementById('motivo-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 10px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋</button>`;
+    return `<tr><td style="font-weight:600;">${r.Funcionario.length>24?r.Funcionario.slice(0,24)+'…':r.Funcionario}</td><td>${r.Matricula||'—'}</td><td style="font-size:12px;">${r.Grupo||'—'}</td><td style="font-size:12px;color:var(--ink-muted);">${r.Gerencia||'—'}</td><td>${badge}</td><td style="white-space:nowrap;">${formatDate(r.DataObj)}</td><td style="font-size:13px;color:var(--ink-soft);line-height:1.6;min-width:260px;">${r.Anotacoes.replace(/\n/g,'<br>')}</td><td>${btnHist}</td></tr>`;
+  }).join('');
+  document.getElementById('motivo-table').innerHTML=`<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
+  document.getElementById('motivo-overlay').style.display='block';
+}
+
+function openGerencia(gerencia) {
+  const kpis=_kpis; if(!kpis)return;
+  const registros=kpis.rows.filter(r=>r.Gerencia===gerencia).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
+  const colabMap={};
+  registros.forEach(r=>{
+    if(!colabMap[r.Funcionario])colabMap[r.Funcionario]={nome:r.Funcionario,mat:r.Matricula,dep:r.Grupo,qtd:0,tiposCont:{},motivoCont:{},piorTipo:'—',maxPeso:0,ultima:null,reincidente:false};
+    colabMap[r.Funcionario].qtd++;colabMap[r.Funcionario].tiposCont[r.TipoDesc]=(colabMap[r.Funcionario].tiposCont[r.TipoDesc]||0)+1;
+    colabMap[r.Funcionario].motivoCont[r.Motivo]=(colabMap[r.Funcionario].motivoCont[r.Motivo]||0)+1;
+    if((PESO_MAP[r.Tipo]||0)>colabMap[r.Funcionario].maxPeso){colabMap[r.Funcionario].maxPeso=PESO_MAP[r.Tipo]||0;colabMap[r.Funcionario].piorTipo=r.TipoDesc;}
+    if(!colabMap[r.Funcionario].ultima||(r.DataObj&&r.DataObj>colabMap[r.Funcionario].ultima))colabMap[r.Funcionario].ultima=r.DataObj;
+    if(r.Reincidente)colabMap[r.Funcionario].reincidente=true;
+  });
+  const colabs=Object.values(colabMap).sort((a,b)=>b.qtd-a.qtd);
+  document.getElementById('gerencia-titulo').textContent=gerencia;
+  document.getElementById('gerencia-subtitulo').textContent=`${registros.length} ocorrência(s) · ${colabs.length} colaborador(es) · ${pct(registros.length,kpis.total)} do total`;
+  const tiposCont={};const motivoCont={};
+  registros.forEach(r=>{tiposCont[r.TipoDesc]=(tiposCont[r.TipoDesc]||0)+1;motivoCont[r.Motivo]=(motivoCont[r.Motivo]||0)+1;});
+  const tiposChips=Object.entries(tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const st=TIPO_BADGE_STYLE_GLOBAL[t]||'';return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${t}</span>`;}).join('');
+  const motChips=Object.entries(motivoCont).sort((a,b)=>b[1]-a[1]).map(([m,n])=>`<span style="background:var(--orange-light);color:var(--orange);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${m}</span>`).join('');
+  document.getElementById('gerencia-summary').innerHTML=tiposChips+motChips;
+  const thead=`<tr><th>Colaborador</th><th>Mat.</th><th>Grupo</th><th>Total</th><th>Tipos</th><th>Motivo(s)</th><th>Mais Grave</th><th>Última</th><th>Reinc.</th><th></th></tr>`;
+  const tbody=colabs.map(c=>{
+    const st=TIPO_BADGE_STYLE_GLOBAL[c.piorTipo]||'';
+    const tipoBadge=`<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;font-family:'Barlow Condensed',sans-serif;">${c.piorTipo}</span>`;
+    const tiposD=Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const dot=TIPO_DOT_GLOBAL[t]||'#6B8A96';return `<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;"><span style="width:7px;height:7px;border-radius:50%;background:${dot};display:inline-block;"></span>${n}x</span>`;}).join(' ');
+    const motivoD=Object.keys(c.motivoCont).map(m=>`<span style="font-size:10px;background:var(--orange-light);color:var(--orange);font-weight:700;border-radius:5px;padding:1px 6px;font-family:'Barlow Condensed',sans-serif;">${m}</span>`).join(' ');
+    const nomeEsc=c.nome.replace(/'/g,"\\'");
+    const btnHist=`<button onclick="document.getElementById('gerencia-overlay').style.display='none';openHist('${nomeEsc}')" style="background:var(--teal-muted);border:1px solid var(--teal-pale);border-radius:7px;padding:5px 10px;font-family:'Barlow',sans-serif;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;" onmouseover="this.style.background='var(--teal)';this.style.color='#fff'" onmouseout="this.style.background='var(--teal-muted)';this.style.color='var(--teal)'">📋</button>`;
+    return `<tr><td style="font-weight:600;">${c.nome.length>26?c.nome.slice(0,26)+'…':c.nome}</td><td>${c.mat||'—'}</td><td style="font-size:12px;">${c.dep||'—'}</td><td><strong>${c.qtd}</strong></td><td>${tiposD}</td><td>${motivoD}</td><td>${tipoBadge}</td><td style="white-space:nowrap;">${formatDate(c.ultima)}</td><td>${c.reincidente?`<span class="badge-sim">Sim</span>`:`<span class="badge-nao">Não</span>`}</td><td>${btnHist}</td></tr>`;
+  }).join('');
+  document.getElementById('gerencia-table').innerHTML=`<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
+  document.getElementById('gerencia-overlay').style.display='block';
+}
+
 function openHist(nome) {
   const sourceRows=_allRows||(_kpis?_kpis.rows:[]);
   const registros=sourceRows.filter(r=>r.Funcionario===nome).sort((a,b)=>(a.DataObj||0)-(b.DataObj||0));
   if(!registros.length)return;
-  const c={nome,mat:null,dep:null,classe:null,qtd:registros.length,reincidente:false,tiposCont:{},piorTipo:'—',maxPeso:0,ultima:null};
+  const c={nome,mat:null,dep:null,classe:null,gerencia:null,qtd:registros.length,reincidente:false,tiposCont:{},motivoCont:{},piorTipo:'—',maxPeso:0,ultima:null};
   registros.forEach(r=>{
-    if(!c.mat)c.mat=r.Matricula;if(!c.dep)c.dep=r.Grupo;if(!c.classe)c.classe=r.Classe;
+    if(!c.mat)c.mat=r.Matricula;if(!c.dep)c.dep=r.Grupo;if(!c.classe)c.classe=r.Classe;if(!c.gerencia)c.gerencia=r.Gerencia;
     c.tiposCont[r.TipoDesc]=(c.tiposCont[r.TipoDesc]||0)+1;
+    c.motivoCont[r.Motivo]=(c.motivoCont[r.Motivo]||0)+1;
     if(r.Peso>c.maxPeso){c.maxPeso=r.Peso;c.piorTipo=r.TipoDesc;}
     if(!c.ultima||(r.DataObj&&r.DataObj>c.ultima))c.ultima=r.DataObj;
     if(r.Reincidente)c.reincidente=true;
   });
   document.getElementById('hist-nome').textContent=nome;
-  document.getElementById('hist-mat').textContent=[c.mat?`Matrícula: ${c.mat}`:'',c.dep?`Grupo: ${c.dep}`:'',c.classe?`Classe: ${c.classe}`:''].filter(Boolean).join(' · ');
-  const chips=Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const st=TIPO_BADGE_STYLE_GLOBAL[t]||'background:var(--paper-dark);color:var(--ink-soft)';return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${t}</span>`;}).join('');
+  document.getElementById('hist-mat').textContent=[c.mat?`Mat: ${c.mat}`:'',c.dep?`Grupo: ${c.dep}`:'',c.gerencia?`Gerência: ${c.gerencia}`:'',c.classe?`Classe: ${c.classe}`:''].filter(Boolean).join(' · ');
+  const chips=Object.entries(c.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{const st=TIPO_BADGE_STYLE_GLOBAL[t]||'';return `<span style="${st};font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${t}</span>`;}).join('');
+  const motChips=Object.entries(c.motivoCont).sort((a,b)=>b[1]-a[1]).map(([m,n])=>`<span style="background:var(--orange-light);color:var(--orange);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">${n}× ${m}</span>`).join('');
   const reincBadge=c.reincidente?`<span style="background:var(--red-light);color:var(--red);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">Reincidente</span>`:`<span style="background:var(--green-light);color:var(--green);font-size:12px;font-weight:700;border-radius:8px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;">Sem Reincidência</span>`;
-  document.getElementById('hist-summary').innerHTML=chips+reincBadge;
-  const thead=`<tr><th>Data</th><th>Tipo</th><th>Sequência</th><th>Anotação</th></tr>`;
+  document.getElementById('hist-summary').innerHTML=chips+motChips+reincBadge;
+  const thead=`<tr><th>Data</th><th>Tipo</th><th>Motivo</th><th>Gerência</th><th>Seq.</th><th>Anotação</th></tr>`;
   const tbody=registros.map(r=>{
-    const st=TIPO_BADGE_STYLE_GLOBAL[r.TipoDesc]||'background:var(--paper-dark);color:var(--ink-soft)';
+    const st=TIPO_BADGE_STYLE_GLOBAL[r.TipoDesc]||'';
     const badge=`<span style="${st};font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;">${r.TipoDesc}</span>`;
-    return `<tr><td style="white-space:nowrap;font-weight:600;vertical-align:top;">${formatDate(r.DataObj)}</td><td style="vertical-align:top;">${badge}</td><td style="text-align:center;vertical-align:top;">${r.Sequencia||1}</td><td style="font-size:13px;color:var(--ink-soft);line-height:1.65;min-width:360px;max-width:480px;">${r.Anotacoes.replace(/\n/g,'<br>')}</td></tr>`;
+    const motBadge=`<span style="font-size:11px;background:var(--orange-light);color:var(--orange);font-weight:700;border-radius:5px;padding:2px 8px;font-family:'Barlow Condensed',sans-serif;">${r.Motivo||'—'}</span>`;
+    return `<tr><td style="white-space:nowrap;font-weight:600;">${formatDate(r.DataObj)}</td><td>${badge}</td><td>${motBadge}</td><td style="font-size:12px;color:var(--ink-muted);">${r.Gerencia||'—'}</td><td style="text-align:center;">${r.Sequencia||1}</td><td style="font-size:13px;color:var(--ink-soft);line-height:1.65;min-width:320px;max-width:480px;">${r.Anotacoes.replace(/\n/g,'<br>')}</td></tr>`;
   }).join('');
   document.getElementById('hist-table').innerHTML=`<table class="data-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
   document.getElementById('hist-overlay').style.display='block';
 }
 function closeHist(e){if(e.target===document.getElementById('hist-overlay'))document.getElementById('hist-overlay').style.display='none';}
 
-// ── EXPORT ───────────────────────────────────────────────────────────────────
+// ── EXPORT ────────────────────────────────────────────────────────────────────
 function exportSnapshot() {
   const kpis=_kpis; if(!kpis)return;
   const btn=document.getElementById('btn-export');
   btn.textContent='⏳ Gerando…'; btn.disabled=true;
   setTimeout(()=>{
     try {
-      const kpisJSON=JSON.stringify(kpis.rows.map(r=>({Empresa:r.Empresa,Data:r.DataObj?r.DataObj.toISOString():null,Grupo:r.Grupo,Classe:r.Classe,Funcionario:r.Funcionario,Sequencia:r.Sequencia,Tipo:r.Tipo,Matricula:r.Matricula,Anotacoes:r.Anotacoes,TipoDesc:r.TipoDesc,Peso:r.Peso,Reincidente:r.Reincidente,AnoMes:r.AnoMes})));
-      const now=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      const kpisJSON=JSON.stringify(kpis.rows.map(r=>({Empresa:r.Empresa,Data:r.DataObj?r.DataObj.toISOString():null,Grupo:r.Grupo,Classe:r.Classe,Funcionario:r.Funcionario,Sequencia:r.Sequencia,Tipo:r.Tipo,Matricula:r.Matricula,Anotacoes:r.Anotacoes,TipoDesc:r.TipoDesc,Peso:r.Peso,Reincidente:r.Reincidente,AnoMes:r.AnoMes,Gerencia:r.Gerencia,Motivo:r.Motivo})));
       const bootScript=`<script>(function(){const _embeddedRows=${kpisJSON};window.addEventListener('DOMContentLoaded',function(){document.getElementById('upload-screen').style.display='none';document.getElementById('dashboard-screen').style.display='block';document.getElementById('btn-reset').style.display='none';document.getElementById('btn-export').style.display='none';const rows=_embeddedRows.map(r=>({...r,DataObj:r.Data?new Date(r.Data):null}));const kpis=buildKPIs(rows);render(kpis,true);});})();<\/script>`;
       let out='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
       out=out.replace(/<script[^>]*xlsx[^>]*><\/script>/gi,'');
@@ -1277,7 +1175,7 @@ function exportSnapshot() {
   },100);
 }
 
-// ── FILE HANDLING ─────────────────────────────────────────────────────────────
+// ── FILE HANDLING ──────────────────────────────────────────────────────────────
 function handleFile(buffer) {
   try {
     const raw=parseExcel(buffer);
@@ -1313,25 +1211,21 @@ document.getElementById('btn-reset').addEventListener('click',()=>{
   document.getElementById('file-input').value='';
 });
 
-// ── DEMO ──────────────────────────────────────────────────────────────────────
+// ── DEMO ───────────────────────────────────────────────────────────────────────
 document.getElementById('demo-btn').addEventListener('click',()=>{
   const demoRows=[
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-01-04'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Aline Exemplo',Sequencia:1,Tipo:3,Matricula:4101,Anotacoes:'discussão com colega durante troca de turno, com conduta inadequada e impacto na convivência da equipe'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-03-09'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Bruno Exemplo',Sequencia:1,Tipo:2,Matricula:4102,Anotacoes:'omitiu comunicação de quase incidente com equipamento em área operacional'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-05-12'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Camila Exemplo',Sequencia:1,Tipo:2,Matricula:4103,Anotacoes:'descumprimento de procedimento interno e falha no reporte à liderança'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-07-18'),Departamento:'Manutenção','Centro de Custo':'CC-003',Funcionario:'Diego Exemplo',Sequencia:1,Tipo:4,Matricula:4104,Anotacoes:'conduta agressiva com supervisor após orientação formal, com risco para a equipe'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-09-21'),Departamento:'Segurança','Centro de Custo':'CC-004',Funcionario:'Elisa Exemplo',Sequencia:1,Tipo:2,Matricula:4105,Anotacoes:'falha em checklist de segurança antes de iniciar atividade com equipamento'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-11-27'),Departamento:'Administrativo','Centro de Custo':'CC-005',Funcionario:'Fábio Exemplo',Sequencia:1,Tipo:3,Matricula:4106,Anotacoes:'desrespeito verbal a colega, prejudicando a convivência e o clima da equipe'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2026-01-03'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Gabriela Exemplo',Sequencia:1,Tipo:2,Matricula:4107,Anotacoes:'quebra de procedimento em manobra interna com dano leve em estrutura patrimonial'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2026-01-06'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Henrique Exemplo',Sequencia:1,Tipo:2,Matricula:4108,Anotacoes:'ausência sem comunicação no início da jornada, impactando a escala operacional'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2026-02-11'),Departamento:'Segurança','Centro de Custo':'CC-004',Funcionario:'Isabela Exemplo',Sequencia:1,Tipo:2,Matricula:4109,Anotacoes:'retirada inadequada de equipamento de proteção em área ativa, contrariando norma interna'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2026-02-17'),Departamento:'Administrativo','Centro de Custo':'CC-005',Funcionario:'João Exemplo',Sequencia:1,Tipo:2,Matricula:4110,Anotacoes:'uso indevido de instalações coletivas, em desacordo com o regulamento interno'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2026-03-19'),Departamento:'Manutenção','Centro de Custo':'CC-003',Funcionario:'Karen Exemplo',Sequencia:1,Tipo:2,Matricula:4111,Anotacoes:'recusa injustificada de atividade planejada sem alinhamento prévio com a supervisão'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2026-03-24'),Departamento:'Logística','Centro de Custo':'CC-002',Funcionario:'Lucas Exemplo',Sequencia:1,Tipo:2,Matricula:4112,Anotacoes:'comunicação tardia de colisão em veículo interno, descumprindo procedimento padrão'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-04-02'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Marina Exemplo',Sequencia:1,Tipo:2,Matricula:4113,Anotacoes:'interrupção não autorizada de atividade sem informar a liderança imediata'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-08-08'),Departamento:'Operações','Centro de Custo':'CC-001',Funcionario:'Nicolas Exemplo',Sequencia:2,Tipo:2,Matricula:4114,Anotacoes:'não compareceu após transporte corporativo e falhou em comunicar ausência à gestão'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2025-10-14'),Departamento:'Administrativo','Centro de Custo':'CC-005',Funcionario:'Olívia Exemplo',Sequencia:2,Tipo:3,Matricula:4115,Anotacoes:'tratou colega com ironia e palavras ofensivas durante atendimento interno'},
-    {Empresa:'Empresa Exemplo',Data:new Date('2026-03-18'),Departamento:'Manutenção','Centro de Custo':'CC-003',Funcionario:'Paulo Exemplo',Sequencia:1,Tipo:4,Matricula:4116,Anotacoes:'descumpriu bloqueio operacional em atividade crítica, elevando o risco de incidente grave'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2025-01-04'),Grupo:'Operações','Classe':'CC-001',Funcionario:'Aline Exemplo',Sequencia:1,Tipo:3,Matricula:4101,Anotacoes:'Discussão com colega durante troca de turno.',Gerencia:'João Gerente',Motivo:'Conduta Inadequado'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2025-03-09'),Grupo:'Operações','Classe':'CC-001',Funcionario:'Bruno Exemplo',Sequencia:1,Tipo:2,Matricula:4102,Anotacoes:'Omitiu comunicação de quase incidente.',Gerencia:'Maria Gestora',Motivo:'Desvio de Procedimentos'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2025-05-12'),Grupo:'Logística','Classe':'CC-002',Funcionario:'Camila Exemplo',Sequencia:1,Tipo:2,Matricula:4103,Anotacoes:'Descumpriu procedimento interno.',Gerencia:'João Gerente',Motivo:'Insubordinação'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2025-07-18'),Grupo:'Manutenção','Classe':'CC-003',Funcionario:'Diego Exemplo',Sequencia:1,Tipo:4,Matricula:4104,Anotacoes:'Conduta agressiva com supervisor.',Gerencia:'Carlos Silva',Motivo:'Conduta Inadequado'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2025-09-21'),Grupo:'Segurança','Classe':'CC-004',Funcionario:'Elisa Exemplo',Sequencia:1,Tipo:2,Matricula:4105,Anotacoes:'Falha em checklist de segurança.',Gerencia:'Maria Gestora',Motivo:'Falhas Operacionais'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2025-11-27'),Grupo:'Administrativo','Classe':'CC-005',Funcionario:'Fábio Exemplo',Sequencia:1,Tipo:3,Matricula:4106,Anotacoes:'Desrespeito verbal a colega.',Gerencia:'Carlos Silva',Motivo:'Conduta Inadequado'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2026-01-03'),Grupo:'Logística','Classe':'CC-002',Funcionario:'Gabriela Exemplo',Sequencia:1,Tipo:2,Matricula:4107,Anotacoes:'Quebra de procedimento em manobra interna.',Gerencia:'João Gerente',Motivo:'Desvio de Procedimentos'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2026-01-06'),Grupo:'Operações','Classe':'CC-001',Funcionario:'Henrique Exemplo',Sequencia:1,Tipo:2,Matricula:4108,Anotacoes:'Ausência sem comunicação.',Gerencia:'Maria Gestora',Motivo:'Falta Injustificada'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2026-02-11'),Grupo:'Segurança','Classe':'CC-004',Funcionario:'Isabela Exemplo',Sequencia:1,Tipo:2,Matricula:4109,Anotacoes:'Retirada inadequada de EPI.',Gerencia:'Carlos Silva',Motivo:'Desvio de Procedimentos'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2026-02-17'),Grupo:'Administrativo','Classe':'CC-005',Funcionario:'João Exemplo',Sequencia:1,Tipo:2,Matricula:4110,Anotacoes:'Uso indevido de instalações.',Gerencia:'João Gerente',Motivo:'Conduta Inadequado'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2026-03-19'),Grupo:'Manutenção','Classe':'CC-003',Funcionario:'Karen Exemplo',Sequencia:1,Tipo:2,Matricula:4111,Anotacoes:'Recusa injustificada de atividade.',Gerencia:'Maria Gestora',Motivo:'Insubordinação'},
+    {Empresa:'Empresa Exemplo',Data:new Date('2026-03-24'),Grupo:'Logística','Classe':'CC-002',Funcionario:'Lucas Exemplo',Sequencia:1,Tipo:2,Matricula:4112,Anotacoes:'Comunicação tardia de colisão.',Gerencia:'Carlos Silva',Motivo:'Falta Injustificada'},
   ];
   const kpis=buildKPIs(demoRows);
   render(kpis,true);
