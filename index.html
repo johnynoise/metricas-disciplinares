@@ -310,11 +310,17 @@
     <ul class="insight-list" id="insight-list"></ul>
   </div>
 
-  <div class="section-label animate-in delay-4">Motivo das Medidas</div>
-  <div class="motivo-grid animate-in delay-4" id="motivo-grid"></div>
-
-  <div class="section-label animate-in delay-4" style="margin-top:28px;">Gerências</div>
-  <div class="gerencia-grid animate-in delay-4" id="gerencia-grid"></div>
+  <div class="section-label animate-in delay-4">Motivo das Medidas · Gerências</div>
+  <div class="col-grid animate-in delay-4">
+    <div class="panel">
+      <div class="panel-title">Motivo das Medidas</div>
+      <div class="bar-list" id="motivo-grid"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Gerências</div>
+      <div class="bar-list" id="gerencia-grid"></div>
+    </div>
+  </div>
 
   <div class="section-label animate-in delay-5">Evolução Mensal</div>
   <div class="panel full-panel animate-in delay-5">
@@ -756,38 +762,30 @@ function render(kpis, resetYearState) {
       <div>${ins}</div>
     </li>`).join('');
 
-  // ── MOTIVO CARDS ──
+  // ── MOTIVO LIST ──
   const maxMotivo = Math.max(...kpis.porMotivoArr.map(m=>m.qtd), 1);
   document.getElementById('motivo-grid').innerHTML = kpis.porMotivoArr.map((m, i)=>{
     const color = MOTIVO_COLORS[i % MOTIVO_COLORS.length];
     const mEsc = m.motivo.replace(/'/g,"\\'");
-    const tiposChips = Object.entries(m.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-      const st = TIPO_BADGE_STYLE_GLOBAL[t]||'background:var(--paper-dark);color:var(--ink-soft)';
-      return `<span class="gerencia-tipo-chip" style="${st};">${n}× ${t.replace('Advertência ','Adv. ')}</span>`;
-    }).join('');
-    return `<div class="motivo-card" style="border-top-color:${color};" onclick="openMotivo('${mEsc}')">
-      <div class="motivo-card-name">${m.motivo} <span style="font-size:10px;color:var(--ink-muted);">↗</span></div>
-      <div class="motivo-card-count" style="color:${color};">${m.qtd}</div>
-      <div class="motivo-card-sub">${m.colabs} colaborador(es) · ${pct(m.qtd, kpis.total)}</div>
-      <div class="motivo-bar-track"><div class="motivo-bar-fill" style="width:${(m.qtd/maxMotivo*100).toFixed(1)}%;background:${color};"></div></div>
-      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px;">${tiposChips}</div>
+    return `<div class="bar-row" style="cursor:pointer;border-radius:6px;padding:4px 6px;margin:-4px -6px;transition:background 0.15s;" onclick="openMotivo('${mEsc}')" onmouseover="this.style.background='var(--teal-muted)'" onmouseout="this.style.background=''">
+      <div class="bar-label" title="${m.motivo}" style="color:${color};">${m.motivo} <span style="font-size:10px;color:var(--ink-muted);font-weight:400;">↗</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(m.qtd/maxMotivo*100).toFixed(1)}%;background:${color};"></div></div>
+      <div class="bar-val" style="color:${color};">${m.qtd}</div>
+      <div style="font-size:11px;color:var(--ink-muted);text-align:right;">${pct(m.qtd, kpis.total)}</div>
     </div>`;
   }).join('');
 
-  // ── GERÊNCIA CARDS ──
+  // ── GERÊNCIA LIST ──
   const GERENCIA_COLORS = ['#6B3FA0','#0E5D73','#C46A00','#B83232','#1A6B40','#7A5F18'];
+  const maxGerencia = Math.max(...kpis.porGerenciaArr.map(g=>g.qtd), 1);
   document.getElementById('gerencia-grid').innerHTML = kpis.porGerenciaArr.map((g, i)=>{
     const color = GERENCIA_COLORS[i % GERENCIA_COLORS.length];
     const gEsc = g.gerencia.replace(/'/g,"\\'");
-    const tiposChips = Object.entries(g.tiposCont).sort((a,b)=>b[1]-a[1]).map(([t,n])=>{
-      const st = TIPO_BADGE_STYLE_GLOBAL[t]||'background:var(--paper-dark);color:var(--ink-soft)';
-      return `<span class="gerencia-tipo-chip" style="${st};">${n}× ${t.replace('Advertência ','Adv. ')}</span>`;
-    }).join('');
-    return `<div class="gerencia-card" style="border-top-color:${color};" onclick="openGerencia('${gEsc}')">
-      <div class="gerencia-card-name">${g.gerencia} <span style="font-size:10px;color:var(--ink-muted);">↗</span></div>
-      <div class="gerencia-card-count" style="color:${color};">${g.qtd}</div>
-      <div class="gerencia-card-sub">${g.colabs} colaborador(es) · ${pct(g.qtd, kpis.total)}</div>
-      <div class="gerencia-card-tipos">${tiposChips}</div>
+    return `<div class="bar-row" style="cursor:pointer;border-radius:6px;padding:4px 6px;margin:-4px -6px;transition:background 0.15s;" onclick="openGerencia('${gEsc}')" onmouseover="this.style.background='var(--teal-muted)'" onmouseout="this.style.background=''">
+      <div class="bar-label" title="${g.gerencia}" style="color:${color};">${g.gerencia} <span style="font-size:10px;color:var(--ink-muted);font-weight:400;">↗</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(g.qtd/maxGerencia*100).toFixed(1)}%;background:${color};"></div></div>
+      <div class="bar-val" style="color:${color};">${g.qtd}</div>
+      <div style="font-size:11px;color:var(--ink-muted);text-align:right;">${pct(g.qtd, kpis.total)}</div>
     </div>`;
   }).join('');
 
